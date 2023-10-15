@@ -24,7 +24,7 @@ In line 88 you replace the number as the 6th parameter of the objects downspeedg
 
 ### Assets
 **Background**<br />
-<a href="https://www.freepik.com/free-photo/empty-dark-concrete-wall-room-studio-background-floor-perspective-with-blue-soft-light-displays_31367949.htm">Image by benzoix</a> on Freepik<br /><br />
+<a href="https://www.freepik.com/free-photo/empty-dark-concrete-wall-room-studio-background-floor-perspective-with-blue-soft-light-displays_31367949.htm">Image by benzoix</a> on Freepik<br />
 
 **Fonts**<br />
 <a href="https://www.1001freefonts.com/unispace.font">Unispace</a><br />
