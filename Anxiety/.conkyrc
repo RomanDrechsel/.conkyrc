@@ -55,19 +55,19 @@ ${offset 5}${font2}Processes${alignr}${font3}${execi 1 ps aux | wc -l} ${font}
 # CPU
 ${offset 5}${color1}${font1}CPU ${hr 2}${font}${color}${voffset 5}
 ${offset 5}${font4}${exec grep model /proc/cpuinfo | cut -d : -f2 | tail -1 | sed 's/\s//'} 
-${offset 5}${color2}${cpugraph cpu0 45,0 90ee90 ff0000 -t} ${color}
+${offset 5}${color2}${cpugraph cpu0 45,0 33CC33 CC5933 -t} ${color}
 ${offset 5}${font4}CPU: ${cpu cpu0}% ${goto 80}${color2}${voffset 1}${cpubar cpu0 10,0}${color}${font}
 
 # RAM
 ${offset 5}${color1}${font1}RAM ${hr 2}${font}${voffset 5}
-${offset 5}${color2}${memgraph 45,0 90ee90 ff0000 -t} ${font}${color}
+${offset 5}${color2}${memgraph 45,0 33CC33 CC5933 -t} ${font}${color}
 ${offset 5}${font2}RAM ${font3}${alignc}${mem} / ${memmax}${alignr}${memperc}% 
 ${offset 5}${font2}SWAP ${font3}${alignc}${swap} / ${swapmax}${alignr}${swapperc}% 
 
 # Graphics 
 ${offset 5}${color1}${font1}Graphics ${hr 2}${font}${color}${voffset 5}
 ${offset 5}${font4}${no_update ${nvidia modelname}}${alignr}${font Ubuntu:size=8}${no_update ${nvidia driverversion}} 
-${offset 5}${font2}${color2}${nvidiagraph gpufreq 45,0 90ee90 ff0000 100 -t 0} ${color}
+${offset 5}${font2}${color2}${nvidiagraph gpufreq 45,0 33CC33 CC5933 100 -t 0} ${color}
 ${offset 5}${font2}GPU ${font3}${goto 130}${nvidia gputemp} C° ${alignr}${nvidia gpufreqcur} / ${no_update ${nvidia gpufreqmax}} Mhz 
 ${offset 5}${font2}Memory ${font3}${alignr}${nvidia mem} / ${no_update ${nvidia memtotal}} Mhz 
 ${offset 5}${font2}Fan ${alignr}${font3}${execi 1 nvidia-smi --query-gpu=fan.speed --format=csv,noheader,nounits}% ${font}
@@ -82,7 +82,7 @@ ${offset 5}${color1}${font1}Network ${hr 2}${font}${voffset 5}
 ${offset 5}${color}Local IP: ${goto 140}Ping: ${alignr}External IP:
 ${offset 5}${font2}${execi 600 ip a | grep inet | grep -vw lo | grep -v inet6 | cut -d \/ -f1 | sed 's/[^0-9\.]*//g'}${goto 140}${execi 10 ping -c 1 -q -i 0.2 -w 1 google.com | awk -F'/' 'END{print int($6)}'}ms ${alignr}${execi 600 wget -q -O- http://ipecho.net/plain; echo} ${font}
 ${offset 5}${voffset 5}${font5}Down: ${downspeed enp0s31f6} ${alignr}Up: ${upspeed enp0s31f6} 
-${offset 5}${color2}${downspeedgraph enp0s31f6 80,145 90ee90 ff0000 14417920 -t}${alignr}${upspeedgraph enp0s31f6 80,145 90ee90 ff0000 4063232 -t} ${font}
+${offset 5}${color2}${downspeedgraph enp0s31f6 80,145 33CC33 CC5933 14417920 -t}${alignr}${upspeedgraph enp0s31f6 80,145 33CC33 CC5933 4063232 -t} ${font}
 # graphscale: down: 110Mbit/s - up: 31Mbit/s
 # calculation: 
 # 110MBit/s / 8 = 13.75Mb/s (1 byte = 8 bit)<br />
