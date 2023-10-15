@@ -23,12 +23,12 @@ For example, with a maximum transfer rate of 110MBit/s:<br />
 In line 88 you replace the number as the 6th parameter of the objects downspeedgraph and upspeedgraph.<br /><br />
 
 ### Assets
-** Background **\
+**Background**<br />
 <a href="https://www.freepik.com/free-photo/empty-dark-concrete-wall-room-studio-background-floor-perspective-with-blue-soft-light-displays_31367949.htm">Image by benzoix</a> on Freepik<br />
 
-** Fonts **\
-- <a href="https://www.1001freefonts.com/unispace.font">Unispace</a><br />
-- <a href="https://www.1001fonts.com/ep-boxi-font.html">EP Boxi</a><br /><br />
+**Fonts**<br />
+<a href="https://www.1001freefonts.com/unispace.font">Unispace</a><br />
+<a href="https://www.1001fonts.com/ep-boxi-font.html">EP Boxi</a><br /><br />
 
 ### Screenshots
 <a href="Screenshots/Anxiety.jpg" target="_blank"><img src="Screenshots/Anxiety.jpg" height="400" alt="Anxiety"></a><br /><br />
