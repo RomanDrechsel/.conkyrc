@@ -1,7 +1,9 @@
 conky.config = {
+	lua_load = '/home/roman/MyStuff/conky/Anxiety/conky.lua',
 	background = true,
+	out_to_wayland = true,
 	update_interval = 1,
-	cpu_avg_samples = 2,
+	cpu_avg_samples = 4,
 	net_avg_samples = 2,
 	out_to_console = false,
 	override_utf8_locale = true,
@@ -15,90 +17,92 @@ conky.config = {
 	own_window_hints = 'undecorated,above,sticky,skip_taskbar,skip_pager',
 	own_window_colour = '000000',
 	own_window_transparent = false,
-	border_inner_margin = 0,
+	border_inner_margin = 5,
 	border_outer_margin = 0,
+	show_graph_scale = true,
 	xinerama_head = 1,
 	alignment = 'top_right',
-	gap_x = 0,
+	gap_x = 5,
 	gap_y = 0,
 	use_xft = true,
-	font = 'Unispace:size=7',
+	font = 'Roboto Slab:size=10',
 	uppercase = false,
 	default_color = 'white',
-	maximum_width = 300,
-	minimum_width = 300,
+	maximum_width = 295,
+	minimum_width = 295,
 	minimum_height = 1500,
 	draw_graph_borders = true,
 	temperature_unit = 'celsius',
 	color1 = 'FeF580',
 	color2 = '90EE90',
 	font1 = 'EP Boxi:bold:10',
-	font2 = 'Ubuntu:bold:size=10',
-	font3 = 'Ubuntu:size=10',
-	font4 = 'Ubuntu:size=11',
-	font5 = 'Unispace:size=7'
+	font2 = 'Roboto Slab:bold:size=10',
+	font3 = 'Roboto Mono:size=10',
+	font4 = 'Roboto Slab:size=9',
+	font5 = 'Roboto Mono:size=9',
+	font6 = 'Roboto Slab:size=11',
+	lua_draw_hook_pre = 'main'
 }
 
-conky.text = [[#{background}
+conky.text = [[#
 # Clock
-${voffset 15}${color 72aeef}${font EP Boxi:bi:size=30}${alignc}${time %H:%M:%S}${font}
-${voffset 5}${font Young Serif:size=16}${color}${alignc}${time %A, %d. %B %Y}${font}
-
+${voffset 15}${color 72aeef}${font EP Boxi:bi:size=30}${alignc}${time %H:%M:%S}
+${font Young Serif:size=16}${color}${alignc}${time %A, %d. %B %Y}
+#
 # System
-${offset 5}${color1}${font1}System ${hr 2}${font}${color}${voffset 5}
-${offset 5}${font2}${no_update $sysname} ${no_update $kernel}${font3}${alignr}${no_update $machine} 
-${offset 5}${font2}Host / User${alignr}${font3}${no_update $nodename} / ${exec whoami} 
-${offset 5}${font2}Uptime${alignr}${font3}$uptime 
-${offset 5}${font2}File System${alignr}${font3}${no_update ${fs_type}} 
-${offset 5}${font2}Processes${alignr}${font3}${execi 1 ps aux | wc -l} ${font}
-
+${voffset 5}${color1}${font1}System ${hr 2}${font}${color}
+${font2}${no_update $sysname} ${no_update $kernel}${font}${alignr}${no_update $machine}
+${font2}Host / User${alignr}${font}${no_update $nodename} / ${exec whoami}
+${font2}Uptime${alignr}${font}$uptime
+${font2}File System${alignr}${font}${no_update ${fs_type}}
+${font2}Processes${alignr}${font}${execi 1 ps aux | wc -l}
+#
 # CPU
-${offset 5}${color1}${font1}CPU ${hr 2}${font}${color}${voffset 5}
-${offset 5}${font4}${exec grep model /proc/cpuinfo | cut -d : -f2 | tail -1 | sed 's/\s//'} 
-${offset 5}${color2}${cpugraph cpu0 45,0 33CC33 CC5933 -t} ${color}
-${offset 5}${font4}CPU: ${cpu cpu0}% ${goto 80}${color2}${voffset 1}${cpubar cpu0 10,0}${color}${font}
-
+${voffset 10}${color1}${font1}CPU ${hr 2}${font}${color}
+${font6}${exec grep model /proc/cpuinfo | cut -d : -f2 | tail -1 | sed 's/\s//'}${font}
+${color2}${cpugraph cpu0 45,0 33CC33 CC5933 -t}
+${color}${font2}CPU: ${font}${cpu cpu0}% ${font}${goto 80}${color2}${voffset 1}${cpubar cpu0 10,0}${color}
+#
 # RAM
-${offset 5}${color1}${font1}RAM ${hr 2}${font}${voffset 5}
-${offset 5}${color2}${memgraph 45,0 33CC33 CC5933 -t} ${font}${color}
-${offset 5}${font2}RAM ${font3}${alignc}${mem} / ${memmax}${alignr}${memperc}% 
-${offset 5}${font2}SWAP ${font3}${alignc}${swap} / ${swapmax}${alignr}${swapperc}% 
-
+${voffset 10}${color1}${font1}RAM ${hr 2}${font}
+${color2}${memgraph 45,0 33CC33 CC5933 -t} ${color}
+${font2}RAM ${font}${alignc}${mem} / ${memmax}${alignr}${memperc}%
+${font2}SWAP ${font}${alignc}${swap} / ${swapmax}${alignr}${swapperc}%
+#
 # Graphics 
-${offset 5}${color1}${font1}Graphics ${hr 2}${font}${color}${voffset 5}
-${offset 5}${font4}${no_update ${nvidia modelname}}${alignr}${font Ubuntu:size=8}${no_update ${nvidia driverversion}} 
-${offset 5}${font2}${color2}${nvidiagraph gpufreq 45,0 33CC33 CC5933 100 -t 0} ${color}
-${offset 5}${font2}GPU ${font3}${goto 130}${nvidia gputemp} C° ${alignr}${nvidia gpufreqcur} / ${no_update ${nvidia gpufreqmax}} Mhz 
-${offset 5}${font2}Memory ${font3}${alignr}${nvidia mem} / ${no_update ${nvidia memtotal}} Mhz 
-${offset 5}${font2}Fan ${alignr}${font3}${execi 1 nvidia-smi --query-gpu=fan.speed --format=csv,noheader,nounits}% ${font}
-
+${voffset 10}${color1}${font1}Graphics ${hr 2}${font}${color}
+${font6}${exec nvidia-smi --query-gpu=name --format=csv,noheader}${alignr} ${font}${exec nvidia-smi --query-gpu=driver_version --format=csv,noheader}
+${voffset 5}${font2}GPU ${font}${goto 100}${execi 1 nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader} C° ${alignr}${execi 1 nvidia-smi --query-gpu=clocks.current.graphics --format=csv,noheader} / ${exec nvidia-smi --query-gpu=clocks.max.graphics --format=csv,noheader}
+${font2}Memory ${font}${alignr}${execi 1 nvidia-smi --query-gpu=memory.used --format=csv,noheader} / ${exec nvidia-smi --query-gpu=memory.total --format=csv,noheader}
+${font2}Fan ${alignr}${font}${execi 1 nvidia-smi --query-gpu=fan.speed --format=csv,noheader}${font}
+#
 # Storage
-${offset 5}${font1}${color1}Storage ${hr 2}${font}${color}${voffset 5}
-${offset 5}${font3}${alignc}${fs_used /} / ${fs_size /}${alignr}${fs_used_perc /}% 
-${offset 5}${color2}${fs_bar /} ${font}
-
+${voffset 10}${font1}${color1}Storage ${hr 2}${font}${color}
+${alignc}${fs_used /} / ${fs_size /}${alignr}${fs_used_perc /}%
+${color2}${fs_bar /}
+#
 # Network
-${offset 5}${color1}${font1}Network ${hr 2}${font}${voffset 5}
-${offset 5}${color}Local IP: ${goto 140}Ping: ${alignr}External IP:
-${offset 5}${font2}${execi 600 ip a | grep inet | grep -vw lo | grep -v inet6 | cut -d \/ -f1 | sed 's/[^0-9\.]*//g'}${goto 140}${execi 10 ping -c 1 -q -i 0.2 -w 1 google.com | awk -F'/' 'END{print int($6)}'}ms ${alignr}${execi 600 wget -q -O- http://ipecho.net/plain; echo} ${font}
-${offset 5}${voffset 5}${font5}Down: ${downspeed enp0s31f6} ${alignr}Up: ${upspeed enp0s31f6} 
-${offset 5}${color2}${downspeedgraph enp0s31f6 80,145 33CC33 CC5933 14417920 -t}${alignr}${upspeedgraph enp0s31f6 80,145 33CC33 CC5933 4063232 -t} ${font}
+${voffset 10}${color1}${font1}Network ${hr 2}${font}
+${color}Local IP: ${goto 140}Ping: ${alignr}External IP:
+${font2}${execi 600 nslookup fritz.box | awk '/^Address: / {print $2}'}${goto 140}${execi 10 ping -c 1 -q -i 0.2 -w 1 google.com | awk -F'/' 'END{print int($6)}'}ms ${alignr}${execi 600 wget -q -O- http://ipecho.net/plain; echo}${font}
+${voffset 5}${font}Down: ${font3}${downspeed enp0s31f6} ${font}${alignr}Up: ${font3}${upspeed enp0s31f6}${font}
+${color2}${downspeedgraph enp0s31f6 80,145 33CC33 CC5933 14417920 -t}${alignr}${upspeedgraph enp0s31f6 80,145 33CC33 CC5933 4063232 -t}
 # graphscale: down: 110Mbit/s - up: 31Mbit/s
 # calculation: 
 # 110MBit/s / 8 = 13.75Mb/s (1 byte = 8 bit)<br />
 # 13.75Mb/s * 1048576 = 14417920 b/s (1 megabyte = 1024*1024 bytes)
 #
 #Processes
-${offset 5}${color1}${font1}Processes ${hr 2}${font}${voffset 5}
-${offset 5}${color}${font Unispace:bold:size=9}Name ${goto 150}PID ${goto 205}CPU ${alignr} MEM ${font}
-${offset 5}${font3}${top name 1} ${font5}${goto 130}${top pid 1} ${goto 185}${top cpu 1}% ${alignr}${top mem_res 1} ${font3}
-${offset 5}${top name 2} ${font5}${goto 130}${top pid 2} ${goto 185}${top cpu 2}% ${alignr}${top mem_res 2} ${font3}
-${offset 5}${top name 3} ${font5}${goto 130}${top pid 3} ${goto 185}${top cpu 3}% ${alignr}${top mem_res 3} ${font3}
-${offset 5}${top name 4} ${font5}${goto 130}${top pid 4} ${goto 185}${top cpu 4}% ${alignr}${top mem_res 4} ${font3}
-${offset 5}${top name 5} ${font5}${goto 130}${top pid 5} ${goto 185}${top cpu 5}% ${alignr}${top mem_res 5} ${font3}
-${offset 5}${top name 6} ${font5}${goto 130}${top pid 6} ${goto 185}${top cpu 6}% ${alignr}${top mem_res 6} ${font3}
-${offset 5}${top name 7} ${font5}${goto 130}${top pid 7} ${goto 185}${top cpu 7}% ${alignr}${top mem_res 7} ${font3}
-${offset 5}${top name 8} ${font5}${goto 130}${top pid 8} ${goto 185}${top cpu 8}% ${alignr}${top mem_res 8} ${font3}
-${offset 5}${top name 9} ${font5}${goto 130}${top pid 9} ${goto 185}${top cpu 9}% ${alignr}${top mem_res 9} ${font3}
-${offset 5}${top name 10} ${font5}${goto 130}${top pid 10} ${goto 185}${top cpu 10}% ${alignr}${top mem_res 10} ${font3}
+${voffset 5}${color1}${font1}Processes ${hr 2}${font}
+${color}${font Roboto Mono:bold:size=11}Name ${goto 148}PID ${goto 203}CPU ${alignr} MEM
+${font4}${top name 1} ${font5}${goto 130}${top pid 1} ${goto 185}${top cpu 1}% ${alignr}${top mem_res 1}
+${font4}${top name 2} ${font5}${goto 130}${top pid 2} ${goto 185}${top cpu 2}% ${alignr}${top mem_res 2}
+${font4}${top name 3} ${font5}${goto 130}${top pid 3} ${goto 185}${top cpu 3}% ${alignr}${top mem_res 3}
+${font4}${top name 4} ${font5}${goto 130}${top pid 4} ${goto 185}${top cpu 4}% ${alignr}${top mem_res 4}
+${font4}${top name 5} ${font5}${goto 130}${top pid 5} ${goto 185}${top cpu 5}% ${alignr}${top mem_res 5}
+${font4}${top name 6} ${font5}${goto 130}${top pid 6} ${goto 185}${top cpu 6}% ${alignr}${top mem_res 6}
+${font4}${top name 7} ${font5}${goto 130}${top pid 7} ${goto 185}${top cpu 7}% ${alignr}${top mem_res 7}
+${font4}${top name 8} ${font5}${goto 130}${top pid 8} ${goto 185}${top cpu 8}% ${alignr}${top mem_res 8}
+${font4}${top name 9} ${font5}${goto 130}${top pid 9} ${goto 185}${top cpu 9}% ${alignr}${top mem_res 9}
+${font4}${top name 10} ${font5}${goto 130}${top pid 10} ${goto 185}${top cpu 10}% ${alignr}${top mem_res 10}
 ]]

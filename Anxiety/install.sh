@@ -1,15 +1,16 @@
 #!/bin/bash
 pwd="$(dirname "$0")"
 
+mkdir -p ~/.fonts
 cp "$pwd/fonts"/*.*tf ~/.fonts
 fc-cache -f ~/.fonts
 
 #background image location
-bg_placeholder="#{background}"
+bg_placeholder="--lua_load"
 if [ -n "$bg_placeholder" ]; then
-    # Ersetze den alten Pfad durch den neuen Pfad
-    sed -i "s|$bg_placeholder|\${image $pwd/background.jpg -p 0,0}#|g" "$pwd/.conkyrc"
+    # replace background image location
+    sed -i "s|$bg_placeholder|lua_load = '$pwd/conky.lua',|g" "$pwd/.conkyrc"
 fi
 
 #symlink
-ln -s -f "$pwd/.conkyrc" ~/.conkyrc
+ln -sf "$pwd/.conkyrc" ~/.conkyrc
