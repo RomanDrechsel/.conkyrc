@@ -12,7 +12,7 @@ function conky_main()
     if image == nil then
         local script_dir = debug.getinfo(1, "S").source:sub(2):match("(.*/)")
         local image_path = script_dir .. "background.png"
-        print("Conky Background: " .. image_path)
+        --print("Conky Background: " .. image_path)
         image = cairo_image_surface_create_from_png(image_path)
     end
 
