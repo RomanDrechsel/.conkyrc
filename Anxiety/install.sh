@@ -11,7 +11,7 @@ fc-cache -f ~/.fonts
 bg_placeholder="--lua_load"
 if [ -n "$bg_placeholder" ]; then
     # replace background image location
-    sed -i "s|$bg_placeholder|lua_load = '$dir/conky.lua',|g" "$dir/.conkyrc"
+    sed -i "/$bg_placeholder/c\    lua_load = '$dir/conky.lua', $bg_placeholder" "$dir/.conkyrc"
 fi
 
 #symlink

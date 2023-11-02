@@ -1,5 +1,5 @@
 conky.config = {
-	--lua_load
+    --lua_load
 	background = true,
 	update_interval = 1,
 	cpu_avg_samples = 4,
@@ -11,18 +11,18 @@ conky.config = {
 	text_buffer_size = 32768,
 	imlib_cache_size = 0,
 	own_window = true,
+	own_window_class = 'Conky',
 	own_window_type = 'override',
-	own_window_class = 'conky',
-	own_window_argb_visual = false,
+	own_window_argb_visual = true,
 	own_window_hints = 'undecorated,above,sticky,skip_taskbar,skip_pager',
 	own_window_colour = '000000',
 	own_window_transparent = false,
 	border_inner_margin = 5,
 	border_outer_margin = 0,
 	show_graph_scale = true,
-	xinerama_head = 1,
 	alignment = 'top_right',
 	gap_x = 5,
+	xinerama_head = 1,
 	gap_y = 0,
 	use_xft = true,
 	font = 'Roboto Slab:size=9',
@@ -38,16 +38,15 @@ conky.config = {
 	font1 = 'EP Boxi:bold:10',
 	font2 = 'Roboto Slab:bold:size=9',
 	font3 = 'Roboto Slab:size=10',
-	font4 = 'Roboto Slab:size=8',
+	font4 = 'Roboto Slab:size=9',
 	font5 = 'Roboto Mono:size=8',
-	font6 = 'Roboto Slab:size=11',
 	lua_draw_hook_pre = 'main'
 }
 
 conky.text = [[#
 # Clock
 ${voffset 15}${color 72aeef}${font EP Boxi:bi:size=28}${alignc}${time %H:%M:%S}
-${font Young Serif:size=14}${color}${alignc}${time %A, %d. %B %Y}
+${font Young Serif:size=13}${color}${alignc}${time %A, %d. %B %Y}
 #
 # System
 ${voffset 5}${color1}${font1}System ${hr 2}${font}${color}
@@ -59,7 +58,7 @@ ${font2}Prozesse${alignr}${font}${execi 1 ps aux | wc -l}
 #
 # CPU
 ${voffset 10}${color1}${font1}CPU ${hr 2}${font}${color}
-${font6}${exec grep model /proc/cpuinfo | cut -d : -f2 | tail -1 | sed 's/\s//'}${font}
+${font3}${exec grep model /proc/cpuinfo | cut -d : -f2 | tail -1 | sed 's/\s//'}${font}
 ${color2}${cpugraph cpu0 60,0 33CC33 CC5933 -t}
 ${color}${font2}CPU: ${font}${cpu cpu0}% ${font}${goto 80}${color2}${voffset 1}${cpubar cpu0 10,0}${color}
 #
@@ -71,7 +70,7 @@ ${font2}SWAP ${font}${alignc}${swap} / ${swapmax}${alignr}${swapperc}%
 #
 # Graphics 
 ${voffset 10}${color1}${font1}Grafikkarte ${hr 2}${font}${color}
-${font6}${exec nvidia-smi --query-gpu=name --format=csv,noheader}${alignr} ${font}${exec nvidia-smi --query-gpu=driver_version --format=csv,noheader}
+${font3}${exec nvidia-smi --query-gpu=name --format=csv,noheader}${alignr} ${font}${exec nvidia-smi --query-gpu=driver_version --format=csv,noheader}
 ${voffset 5}${font2}GPU ${font}${goto 100}${execi 1 nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader} C° ${alignr}${execi 1 nvidia-smi --query-gpu=clocks.current.graphics --format=csv,noheader} / ${exec nvidia-smi --query-gpu=clocks.max.graphics --format=csv,noheader}
 ${font2}Speicher ${font}${alignr}${execi 1 nvidia-smi --query-gpu=memory.used --format=csv,noheader} / ${exec nvidia-smi --query-gpu=memory.total --format=csv,noheader}
 ${font2}Lüfter ${alignr}${font}${execi 1 nvidia-smi --query-gpu=fan.speed --format=csv,noheader}${font}
