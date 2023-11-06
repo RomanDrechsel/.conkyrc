@@ -1,4 +1,6 @@
 #!/bin/bash
+sudo dnf install lm_sensors
+
 dir="$(pwd;)";
 
 echo "$dir"
