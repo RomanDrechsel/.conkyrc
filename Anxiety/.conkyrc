@@ -33,7 +33,6 @@ conky.config = {
 	minimum_width = 295,
 	minimum_height = 1500,
 	draw_graph_borders = true,
-	temperature_unit = 'celsius',
 	color1 = 'c587ff',
 	color2 = '90EE90',
 	color3 = '61bdff',
@@ -51,10 +50,10 @@ conky.config = {
 conky.text = [[#false
 # Clock
 ${voffset 15}${color 72aeef}${font EP Boxi:bi:size=28}${alignc}${time %H:%M:%S}
-${font Young Serif:size=15}${color}${alignc}${time %A, %d. %B %Y}
+${font Young Serif:size=14}${color}${alignc}${time %A, %d. %B %Y}
 #
 # System
-${color1}${font1}System ${hr 2}${color}${voffset 2}
+${lua_parse section_title System}
 ${font}${color3}${no_update $sysname} ${no_update $kernel}${alignr}${color5}${no_update $machine}
 ${color3}Host / User${alignr}${color5}${no_update $nodename} / ${exec whoami}
 ${color3}Uptime${alignr}${color5}$uptime
@@ -62,33 +61,33 @@ ${color3}File System${alignr}${color5}${no_update ${fs_type}}
 ${color3}Prozesse${alignr}${color5}${execi 1 ps aux | wc -l}
 #
 # CPU
-${voffset 10}${color1}${font1}CPU ${hr 2}${color}
+${lua_parse section_title CPU}
 ${font3}${color6}${exec grep model /proc/cpuinfo | cut -d : -f2 | tail -1 | sed 's/\s//'}
-${color2}${cpugraph cpu0 33CC33 CC5933 -t}${voffset -5}
+${color2}${cpugraph cpu0 33CC33 CC5933 -t}${voffset -10}
 ${color3}${font}CPU ${offset 10}${color5}${cpu cpu0}% ${goto 75}${lua get_ssd_temp} ${goto 120}${color2}${voffset 1}${cpubar cpu0 10,0}
 #
 # RAM
-${voffset 5}${color1}${font1}RAM ${hr 2}
+${lua_parse section_title RAM}
 ${color2}${memgraph 33CC33 CC5933 -t}${voffset -5}
 ${font}${color3}RAM ${alignc}${color5}${mem} / ${memmax}${alignr}${memperc}%
 ${font}${color3}SWAP ${alignc}${color5}${swap} / ${swapmax}${alignr}${swapperc}%
 #
 # Graphics 
-${voffset 5}${color1}${font1}Grafikkarte ${hr 2}
+${lua_parse section_title Grafikkarte}
 ${font3}${color6}AMD Radeon RX 7800 XT${alignr}${font}${color4}${exec glxinfo | grep "OpenGL version"|cut -c52-80|xargs}
 ${color2}${execgraph "cat /sys/class/drm/card1/device/gpu_busy_percent" 33CC33 CC5933 -t }${color}${voffset -8}
-${font}${color3}GPU ${goto 80}${color5}${lua get_gpu_temp}${alignr}${lua get_gpu_utilization}
-${color3}Memory ${goto 105}${color5}${lua get_gpu_mem_temp}${alignr}${lua get_gpu_vram}
+${font}${color3}GPU ${goto 70}${color5}${lua get_gpu_temp}${alignr}${lua get_gpu_utilization}
+${color3}Memory ${goto 95}${color5}${lua get_gpu_mem_temp}${alignr}${lua get_gpu_vram}
 ${color3}Lüfter ${alignr}${color5}${lua get_gpu_fan}
 ${color3}Verbrauch ${alignr}${color5}${lua get_gpu_power}
 #
 # Festplatte
-${voffset 5}${font1}${color1}Festplatte ${hr 2}${voffset 2}
+${lua_parse section_title Festplatte}
 ${font}${color5}${lua get_ssd_temp}${alignc}${fs_used /} / ${fs_size /}${alignr}${fs_used_perc /}%
 ${color2}${fs_bar /}${voffset -5}
 #
 # Network
-${voffset 5}${color1}${font1}Netzwerk ${hr 2}${voffset 2}
+${lua_parse section_title Netzwerk}
 ${font}${color3}Externe IP:${alignr}Ping:
 ${font3}${color4}${execi 600 wget -q -O- http://ipecho.net/plain; echo}${alignr}${execi 10 ping -c 1 -q -i 0.2 -w 1 google.com | awk -F'/' 'END{print int($6)}'} ms
 ${goto 30}${font}${color3}Down:${offset 10}${color4}${font3}${voffset -2}${downspeed enp0s31f6}${font}${goto 190}${color3}Up:${offset 10}${font3}${color4}${voffset -2}${upspeed enp0s31f6}${voffset -5}
@@ -99,16 +98,16 @@ ${color2}${downspeedgraph enp0s31f6 80,145 33CC33 CC5933 14417920 -t}${alignr}${
 # 13.75Mb/s * 1048576 = 14417920 b/s (1 megabyte = 1024*1024 bytes)
 #
 #Processes
-${color1}${font1}Prozesse ${hr 2}
+${lua_parse section_title Prozesse}
 ${color3}${font Roboto Mono:bold:size=11}Name ${goto 156}PID ${goto 210}CPU ${alignr} MEM${color4}${voffset -5}
-${font4}${top name 1} ${font5}${goto 135}${top pid 1} ${goto 190}${top cpu 1}% ${alignr}${top mem_res 1}${voffset -1}
-${font4}${top name 2} ${font5}${goto 135}${top pid 2} ${goto 190}${top cpu 2}% ${alignr}${top mem_res 2}${voffset -1}
-${font4}${top name 3} ${font5}${goto 135}${top pid 3} ${goto 190}${top cpu 3}% ${alignr}${top mem_res 3}${voffset -1}
-${font4}${top name 4} ${font5}${goto 135}${top pid 4} ${goto 190}${top cpu 4}% ${alignr}${top mem_res 4}${voffset -1}
-${font4}${top name 5} ${font5}${goto 135}${top pid 5} ${goto 190}${top cpu 5}% ${alignr}${top mem_res 5}${voffset -1}
-${font4}${top name 6} ${font5}${goto 135}${top pid 6} ${goto 190}${top cpu 6}% ${alignr}${top mem_res 6}${voffset -1}
-${font4}${top name 7} ${font5}${goto 135}${top pid 7} ${goto 190}${top cpu 7}% ${alignr}${top mem_res 7}${voffset -1}
-${font4}${top name 8} ${font5}${goto 135}${top pid 8} ${goto 190}${top cpu 8}% ${alignr}${top mem_res 8}${voffset -1}
-${font4}${top name 9} ${font5}${goto 135}${top pid 9} ${goto 190}${top cpu 9}% ${alignr}${top mem_res 9}${voffset -1}
-${font4}${top name 10} ${font5}${goto 135}${top pid 10} ${goto 190}${top cpu 10}% ${alignr}${top mem_res 10}
+${lua_parse process 1}
+${lua_parse process 2}
+${lua_parse process 3}
+${lua_parse process 4}
+${lua_parse process 5}
+${lua_parse process 6}
+${lua_parse process 7}
+${lua_parse process 8}
+${lua_parse process 9}
+${lua_parse process 10}
 ]]

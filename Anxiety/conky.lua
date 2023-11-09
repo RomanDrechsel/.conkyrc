@@ -81,6 +81,14 @@ function conky_get_cpu_temp()
     return get_sensor_data("Composite"):gsub( "+", "")
 end
 
+function conky_section_title(title)
+    return "${voffset 5}${color1}${font1}".. title .. " ${hr 2}"
+end
+
+function conky_process(index)
+    return string.format("${font4}${top name %s } ${font5}${goto 135}${top pid %s } ${goto 190}${top cpu %s }%% ${alignr}${top mem_res %s }${voffset -1}", index, index, index, index)
+end
+
 function get_sensor_data(sensor_name)
     return pipe("sensors | grep '" .. sensor_name .. "' | awk '{print $2}'")
 end 
