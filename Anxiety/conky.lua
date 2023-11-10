@@ -1,9 +1,11 @@
 require 'cairo'
 
-local image = nil
-local cs = nil
-local cr = nil
-local gpu = nil
+image = nil
+cs = nil
+cr = nil
+gpu = nil
+ping = nil
+last_inet = nil
 
 function conky_main()
     if gpu == nil then
@@ -15,13 +17,16 @@ function conky_main()
         gpu = gpu .. card .. "/device/"
     end
 
+    if ping == nil or os.date("%S") % 5 == 0 then
+        update_ping()
+    end
+
     if conky_window == nil or conky_window.width <= 0 or conky_window.height <= 0 then
         return
     end
 
     if image == nil then
-        local script_dir = debug.getinfo(1, "S").source:sub(2):match("(.*/)")
-        local image_path = script_dir .. "background.png"
+        local image_path = script_dir() .. "background.png"
         image = cairo_image_surface_create_from_png(image_path)
     end
 
@@ -89,9 +94,51 @@ function conky_process(index)
     return string.format("${font4}${top name %s } ${font5}${goto 135}${top pid %s } ${goto 190}${top cpu %s }%% ${alignr}${top mem_res %s }${voffset -1}", index, index, index, index)
 end
 
+function conky_get_ping()
+    if ping == nil or ping <= 0 then
+        local ret = "Kein Internet!"
+        if last_inet == nil then
+            local inet_cache_file = io.open(script_dir() .. ".cache/inet", "r")
+            if inet_cache_file then
+                last_inet = tonumber(inet_cache_file:read("*a"))
+                inet_cache_file:close()
+            end
+        end
+        if last_inet ~= nil then
+            local diff = os.time() - last_inet
+            local min = math.floor((diff / 60) + 0.5)
+            local hours = math.floor((min / 3600) + 0.5)
+            if hours > 0 then
+                ret = ret .. " (" .. hours .. "h " .. min .."m)"
+            else
+                ret = ret .. " (" .. min .."m)"
+            end
+        end
+        return ret
+    else
+        return ping .. " ms"
+    end
+end
+
 function get_sensor_data(sensor_name)
     return pipe("sensors | grep '" .. sensor_name .. "' | awk '{print $2}'")
 end 
+
+function update_ping()
+    ping = tonumber(pipe("ping -c 1 -q -i 0.2 -w 1 google.com | awk -F'/' 'END{print int($6)}'"))
+    if ping ~= nil and ping > 0 then
+        last_inet = os.time()
+        local dir = script_dir() .. ".cache"
+        os.execute("mkdir -p '" .. dir .. "'")
+        local inet_cache_file = io.open(dir .. "/inet", "w")
+        if inet_cache_file then
+            inet_cache_file:write(last_inet)
+            inet_cache_file:close()
+        end
+    end
+
+
+end
 
 function pipe(command)
     local pipe = io.popen(command)
@@ -108,4 +155,8 @@ function format_bytes(bytes)
     local gigabytes = tonumber(trim(bytes)) / 1024 / 1024 / 1024
     local str = string.format("%.2f", gigabytes)
     return str:gsub( ",", ".")
+end
+
+function script_dir()
+    return debug.getinfo(1, "S").source:sub(2):match("(.*/)")
 end

@@ -89,7 +89,7 @@ ${color2}${fs_bar /}${voffset -5}
 # Network
 ${lua_parse section_title Netzwerk}
 ${font}${color3}Externe IP:${alignr}Ping:
-${font3}${color4}${execi 600 wget -q -O- http://ipecho.net/plain; echo}${alignr}${execi 10 ping -c 1 -q -i 0.2 -w 1 google.com | awk -F'/' 'END{print int($6)}'} ms
+${font3}${color4}${execi 600 wget -q -O- http://ipecho.net/plain; echo}${alignr}${lua get_ping}
 ${goto 30}${font}${color3}Down:${offset 10}${color4}${font3}${voffset -2}${downspeed enp0s31f6}${font}${goto 190}${color3}Up:${offset 10}${font3}${color4}${voffset -2}${upspeed enp0s31f6}${voffset -5}
 ${color2}${downspeedgraph enp0s31f6 80,145 33CC33 CC5933 14417920 -t}${alignr}${upspeedgraph enp0s31f6 80,145 33CC33 CC5933 4063232 -t}${voffset -5}
 # graphscale: down: 110Mbit/s - up: 31Mbit/s
