@@ -47,7 +47,7 @@ conky.config = {
 	lua_draw_hook_pre = 'main'
 }
 
-conky.text = [[#false
+conky.text = [[#
 # Clock
 ${voffset 15}${color 72aeef}${font EP Boxi:bi:size=28}${alignc}${time %H:%M:%S}
 ${font Young Serif:size=14}${color}${alignc}${time %A, %d. %B %Y}
