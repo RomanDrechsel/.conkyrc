@@ -98,7 +98,7 @@ function conky_get_ping()
     if ping == nil or ping <= 0 then
         local ret = "Kein Internet!"
         if last_inet == nil then
-            local inet_cache_file = io.open(script_dir() .. ".cache/inet", "r")
+            local inet_cache_file = io.open(".cache/Conky/Anxiety/inet", "r")
             if inet_cache_file then
                 last_inet = tonumber(inet_cache_file:read("*a"))
                 inet_cache_file:close()
@@ -128,7 +128,7 @@ function update_ping()
     ping = tonumber(pipe("ping -c 1 -q -i 0.2 -w 1 google.com | awk -F'/' 'END{print int($6)}'"))
     if ping ~= nil and ping > 0 then
         last_inet = os.time()
-        local dir = script_dir() .. ".cache"
+        local dir = ".cache/Conky/Anxiety"
         os.execute("mkdir -p '" .. dir .. "'")
         local inet_cache_file = io.open(dir .. "/inet", "w")
         if inet_cache_file then
@@ -142,8 +142,8 @@ end
 
 function pipe(command)
     local pipe = io.popen(command)
-    local output = pipe:read("*a");
-    pipe:close();
+    local output = pipe:read("*a")
+    pipe:close()
     return trim(output)
 end
 
