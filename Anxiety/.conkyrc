@@ -1,5 +1,5 @@
 conky.config = {
-    lua_load = '/home/roman/MyStuff/Conky/Anxiety/conky.lua', --lua_load
+    lua_load = '/home/roman/MyStuff/Coding/Github/Conky/Anxiety/lua/conky.lua', --lua_load
 	background = true,
 	update_interval = 1,
 	cpu_avg_samples = 4,
@@ -19,8 +19,9 @@ conky.config = {
 	own_window_transparent = true,
 	border_inner_margin = 5,
 	border_outer_margin = 0,
-	show_graph_scale = true,
+	show_graph_scale = false,
 	default_graph_height = 45,
+	top_name_width = 18,
 	alignment = 'top_right',
 	gap_x = 5,
 	gap_y = 0,
@@ -44,13 +45,14 @@ conky.config = {
 	font3 = 'Roboto Slab:size=11',
 	font4 = 'Roboto Slab:size=9',
 	font5 = 'Roboto Mono:size=9',
+	lua_startup_hook = 'init',
 	lua_draw_hook_pre = 'main'
 }
 
 conky.text = [[#
 # Clock
 ${voffset 15}${color 72aeef}${font EP Boxi:bi:size=28}${alignc}${time %H:%M:%S}
-${font Young Serif:size=14}${color}${alignc}${time %A, %d. %B %Y}
+${font Young Serif:size=14}${color}${alignc}${time %A, %d. %B %Y}${voffset -5}
 #
 # System
 ${lua_parse section_title System}
@@ -75,7 +77,7 @@ ${font}${color3}SWAP ${alignc}${color5}${swap} / ${swapmax}${alignr}${swapperc}%
 # Graphics 
 ${lua_parse section_title Grafikkarte}
 ${font3}${color6}AMD Radeon RX 7800 XT${alignr}${font}${color4}${exec glxinfo | grep "OpenGL version"|cut -c52-80|xargs}
-${color2}${execgraph "cat /sys/class/drm/card1/device/gpu_busy_percent" 33CC33 CC5933 -t }${color}${voffset -8}
+${color2}${execgraph "cat /sys/class/drm/card0/device/gpu_busy_percent" 33CC33 CC5933 -t }${color}${voffset -8}
 ${font}${color3}GPU ${goto 70}${color5}${lua get_gpu_temp}${alignr}${lua get_gpu_utilization}
 ${color3}Memory ${goto 95}${color5}${lua get_gpu_mem_temp}${alignr}${lua get_gpu_vram}
 ${color3}Lüfter ${alignr}${color5}${lua get_gpu_fan}
@@ -92,6 +94,7 @@ ${font}${color3}Externe IP:${alignr}Ping:
 ${font3}${color4}${execi 600 wget -q -O- http://ipecho.net/plain; echo}${alignr}${lua get_ping}
 ${goto 30}${font}${color3}Down:${offset 10}${color4}${font3}${voffset -2}${downspeed enp0s31f6}${font}${goto 190}${color3}Up:${offset 10}${font3}${color4}${voffset -2}${upspeed enp0s31f6}${voffset -5}
 ${color2}${downspeedgraph enp0s31f6 80,145 33CC33 CC5933 14417920 -t}${alignr}${upspeedgraph enp0s31f6 80,145 33CC33 CC5933 4063232 -t}${voffset -5}
+#${color2}${downspeedgraph enp0s31f6 80,145 33CC33 33CC33 -t -l}${alignr}${upspeedgraph enp0s31f6 80,145 33CC33 33CC33 -t -l}${voffset -5}
 # graphscale: down: 110Mbit/s - up: 31Mbit/s
 # calculation: 
 # 110MBit/s / 8 = 13.75Mb/s (1 byte = 8 bit)<br />

@@ -1,33 +1,34 @@
-require 'cairo'
+local pwd = debug.getinfo(1, "S").source:match("@?(.*/)")
+package.path = package.path .. ";" .. pwd .. "?.lua"
 
-image = nil
-cs = nil
-cr = nil
-gpu = nil
-ping = nil
-last_inet = nil
+require('cairo')
+
+local fu = require("functions")
+local sensors = require("sensors")
+local gpu = require("gpu_amd")
+local harddisk = require("harddisk")
+
+local image = nil
+local cs = nil
+local cr = nil
+local ping = nil
+local last_inet = nil
+
+local Sensors = sensors:new()
+local GPU = gpu:new(Sensors)
+local Disk = harddisk:new(Sensors)
+
+function conky_init()
+
+end
 
 function conky_main()
-    if gpu == nil then
-        gpu = "/sys/class/drm/"
-        local card = pipe("ls " .. gpu .." | grep -E '^card[0-9]+$'")
-        if card == nil or string.len(card) == 0 then
-            card = "card0"
-        end
-        gpu = gpu .. card .. "/device/"
-    end
-
-    if ping == nil or os.date("%S") % 5 == 0 then
-        update_ping()
-    end
-
     if conky_window == nil or conky_window.width <= 0 or conky_window.height <= 0 then
         return
     end
 
     if image == nil then
-        local image_path = script_dir() .. "background.png"
-        image = cairo_image_surface_create_from_png(image_path)
+        image = cairo_image_surface_create_from_png(pwd .. "../background.png")
     end
 
     if image ~= nil then
@@ -39,47 +40,67 @@ function conky_main()
         end 
         cairo_paint(cr)
     end
+
+    if Sensors ~= nil then
+        Sensors:Update()
+    end
+
+    if Disk ~= nil then
+        Disk:Update()
+    end
+
+    if ping == nil or os.date("%S") % 5 == 0 then
+        update_ping()
+    end
 end
 
 function conky_get_gpu_temp()
-    return trim(get_sensor_data("edge")):gsub( "+", "") .. " / " .. trim(get_sensor_data("junction")):gsub( "+", "")
+    if GPU ~= nil then
+        return GPU:Temp()
+    end
+    return ""
 end
 
 function conky_get_gpu_utilization()
-    if (gpu == nil) then
-        return ""
+    if GPU ~= nil then
+        return GPU:Utilization()
     end
-    local dpm_sclk = tonumber(pipe("grep -Pom 1 '\\d+:\\s\\K(\\d+)(?=.*\\*$)' " .. gpu .. "pp_dpm_sclk"))
-    local last_sclk = tonumber(pipe("cat " .. gpu .. "pp_dpm_sclk | tail -1 | cut -c4-7"))
-    return dpm_sclk .. " Mhz / " .. last_sclk .. " Mhz"
+    return "-"
 end 
 
 function conky_get_gpu_mem_temp()
-    return trim(get_sensor_data("mem")):gsub( "+", "")
+    if GPU ~= nil then
+        return GPU:MemTemp()
+    end
+    return ""
 end
 
 function conky_get_gpu_vram()
-    if (gpu == nil) then
-        return ""
+    if GPU ~= nil then
+        return GPU:VRAM()
     end
-    local used = pipe("cat " .. gpu .. "mem_info_vram_used")
-    local max =  pipe("cat " .. gpu .. "mem_info_vram_total")
-    return format_bytes(used) .. " Gb / " .. format_bytes(max) .. " Gb"
+    return "-"
 end
 
 function conky_get_gpu_power()
-    return get_sensor_data("PPT") .. " W"
+    if GPU ~= nil then
+        return GPU:Power()
+    end
+    return ""
 end
 
 function conky_get_gpu_fan()
-    local curr = tonumber(pipe("sensors | grep -i fan1 | awk '{print $2}'"))
-    local max =  tonumber(pipe("sensors | grep -i fan1 | awk '{print $10}'"))
-    local percent = tonumber(curr / max * 100)
-    return curr .." RPM (" .. math.floor(percent + 0.5) .. "%)"
+    if GPU ~= nil then
+        return GPU:Fan()
+    end
+    return "-"
 end
 
 function conky_get_ssd_temp()
-    return pipe("sensors | grep 'Package id 0' | awk '{print $4}'"):gsub( "+", "")
+    if Disk ~= nil then
+        return Disk:Temp()
+    end
+    return "123"
 end
 
 function conky_get_cpu_temp()
@@ -87,7 +108,7 @@ function conky_get_cpu_temp()
 end
 
 function conky_section_title(title)
-    return "${voffset 5}${color1}${font1}".. title .. " ${hr 2}"
+    return "${voffset 10}${color1}${font1}".. title .. " ${hr 2}${voffset 3}"
 end
 
 function conky_process(index)
@@ -121,11 +142,11 @@ function conky_get_ping()
 end
 
 function get_sensor_data(sensor_name)
-    return pipe("sensors | grep '" .. sensor_name .. "' | awk '{print $2}'")
-end 
+    return fu:pipe("sensors | grep '" .. sensor_name .. "' | awk '{print $2}'")
+end
 
 function update_ping()
-    ping = tonumber(pipe("ping -c 1 -q -i 0.2 -w 1 google.com | awk -F'/' 'END{print int($6)}'"))
+    ping = tonumber(fu:pipe("ping -c 1 -q -i 0.2 -w 1 google.com | awk -F'/' 'END{print int($6)}'"))
     if ping ~= nil and ping > 0 then
         last_inet = os.time()
         local dir = ".cache/Conky/Anxiety"
@@ -136,27 +157,4 @@ function update_ping()
             inet_cache_file:close()
         end
     end
-
-
-end
-
-function pipe(command)
-    local pipe = io.popen(command)
-    local output = pipe:read("*a")
-    pipe:close()
-    return trim(output)
-end
-
-function trim(s)
-    return s:match "^%s*(.-)%s*$"
-end
-
-function format_bytes(bytes)
-    local gigabytes = tonumber(trim(bytes)) / 1024 / 1024 / 1024
-    local str = string.format("%.2f", gigabytes)
-    return str:gsub( ",", ".")
-end
-
-function script_dir()
-    return debug.getinfo(1, "S").source:sub(2):match("(.*/)")
 end

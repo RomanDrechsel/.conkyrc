@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo dnf install lm_sensors
+sudo apt-get install lm_sensors conky-all 
 
 dir="$(pwd;)";
 
@@ -13,7 +13,7 @@ fc-cache -f ~/.fonts
 bg_placeholder="--lua_load"
 if [ -n "$bg_placeholder" ]; then
     # replace background image location
-    sed -i "/$bg_placeholder/c\    lua_load = '$dir/conky.lua', $bg_placeholder" "$dir/.conkyrc"
+    sed -i "/$bg_placeholder/c\    lua_load = '$dir/lua/conky.lua', $bg_placeholder" "$dir/.conkyrc"
 fi
 
 #symlink

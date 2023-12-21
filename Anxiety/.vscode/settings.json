@@ -1,0 +1,11 @@
+{
+    "Lua.diagnostics.globals": [
+        "cairo_set_source_surface",
+        "conky_init"
+    ],
+    "Lua.diagnostics.disable": [
+        "undefined-global",
+        "lowercase-global",
+        "cast-local-type"
+    ]
+}
