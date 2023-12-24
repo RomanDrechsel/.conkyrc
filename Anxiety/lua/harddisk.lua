@@ -1,6 +1,6 @@
 local fu = require("functions")
 
-local Disk = { Sensors = nil, Used = -1, Size = -1, Percent = -1 }
+local Disk = { Sensors = nil, Used = -1, Size = -1, Percent = "" }
 
 function Disk:new(sensors)
     self.Sensors = sensors;
@@ -20,27 +20,44 @@ function Disk:Temp()
 end
 
 function Disk:Usage()
-    
+    if self.Used > 0 then
+        if self.Size > 0 then
+            return fu:format_bytes(self.Used) .. " GiB / " .. fu:format_bytes(self.Size) .. " GiB"
+        else
+            return fu:format_bytes(self.Used) .. " GiB"
+        end
+    end
+
+    return ""
+end
+
+function Disk:Percentage()
+    if self.Percent then
+        return self.Percent
+    end
+
+    return ""
 end
 
 function Disk:Update()
-    local disk = fu:pipe("df --total --sync | grep -E ' /$'")
+    local disk = fu:pipe("df -P --sync | grep -E ' /$'")
     if disk then
-        _, _, _, size, used, _, percent, _ = disk:match("(%S+)%s+(%S+)%s+(%S+)%s+(%S+)%s+(%S+)%s+(%S+)%s+(%S+)")
+        local _, size, used, _, percent, _ = disk:match("(%S+)%s+(%S+)%s+(%S+)%s+(%S+)%s+(%S+)%s+(%S+)")
+
         if size then
-            self.Size = fu:toInt(size)
+            self.Size = fu:toInt(size) * 1024
         else
             self.Size = -1
         end
         if used then
-            self.Used = fu:toInt(used)
+            self.Used = fu:toInt(used) * 1024
         else
             self.Used = -1
         end
         if percent then
-            self.Percent = fu:toInt(percent)
+            self.Percent = percent
         else
-            self.Percent = -1
+            self.Percent = ""
         end
     end
 end

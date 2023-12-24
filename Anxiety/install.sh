@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo apt-get install lm_sensors conky-all 
+sudo apt-get install lm_sensors conky-all mpstat
 
 dir="$(pwd;)";
 

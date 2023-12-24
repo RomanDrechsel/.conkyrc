@@ -1,6 +1,7 @@
 local fu = require("functions")
 
-local GPU = { Sensors = nil, Path = nil }
+local GPU = { Sensors = nil, Path = nil, DriverVersion = "", CardName = "" }
+local last_min = -1
 
 function GPU:new(sensors)
     self.Sensors = sensors;
@@ -20,6 +21,28 @@ function GPU:new(sensors)
     end
 
     return self
+end
+
+function GPU:Update()
+    if last_min < os.time() - 60 then
+        local glxinfo = fu:pipe("glxinfo | grep \"OpenGL version string\"")
+        if glxinfo then
+            local driver = glxinfo:match("OpenGL version string: %S+ %(.*%) (.+)") or glxinfo:match("OpenGL version string: %S+ (.+)")
+            if driver then
+                self.DriverVersion = fu:trim(driver)
+            end
+        end
+
+        local card = fu:pipe("xrandr --listproviders | grep \"Provider 0\"")
+        if card then
+            local gpuName = card:match("name:(.-) @")
+            if gpuName then
+                self.CardName = gpuName
+            end
+        end
+
+        last_min = os.time()
+    end
 end
 
 function GPU:VRAM()
@@ -145,6 +168,21 @@ function GPU:Power()
         end
     end
     return "-"
+end
+
+function GPU:Card()
+    return self.CardName
+end
+
+function GPU:Driver()
+    return self.DriverVersion
+end
+
+function GPU:Graph()
+    if self.Path then
+        return conky_parse("${execgraph \"cat " .. self.Path .. "/gpu_busy_percent\" 33CC33 CC5933 -t }")
+    end
+    return ""
 end
 
 return GPU
