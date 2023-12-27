@@ -1,3 +1,10 @@
+--[[
+
+Conky:
+https://conky.cc/
+
+]]--
+
 local pwd = debug.getinfo(1, "S").source:match("@?(.*/)")
 package.path = package.path .. ";" .. pwd .. "../?.lua;" .. pwd .. "?.lua"
 
@@ -29,10 +36,6 @@ function conky_pre()
         return
     end
 
-    if background == nil then
-        background = cairo_image_surface_create_from_png(pwd .. "../" .. Config.BackgroundImage)
-    end
-
     if Sensors then
         Sensors:Update()
     end
@@ -52,8 +55,25 @@ function conky_pre()
     local cs = cairo_xlib_surface_create(conky_window.display, conky_window.drawable, conky_window.visual, conky_window.width, conky_window.height)
     local cr = cairo_create(cs)
 
+    if background == nil then
+        background = cairo_image_surface_create_from_png(pwd .. "../" .. Config.BackgroundImage)
+    end
+
     if Draw then
         Draw:Background(cr, background)
+    end
+
+    if cr then
+        local y = Config.MarginY
+        if Clock then
+            y = Clock:Display(cr, y)
+        end
+        if System then
+            y = System:Display(cr, y)
+        end
+        if CPU then
+            y = CPU:Display(cr, y)
+        end
     end
 
     cairo_destroy(cr)
@@ -61,12 +81,8 @@ function conky_pre()
 end
 
 function conky_shutdown()
-    if background then
-        print("Destory background...")
-        --cairo_destroy(background)
-    end
 end
-
+--[[
 function conky_get_gpu_temp()
     if GPU then
         return GPU:Temp()
@@ -121,14 +137,12 @@ function conky_get_gpu()
     if GPU then
         return GPU:Card()
     end
-    return ""
 end
 
 function conky_get_gpu_driver()
     if GPU then
         return GPU:Driver()
     end
-    return ""
 end
 
 function conky_get_disk_temp()
@@ -229,3 +243,4 @@ end
 function conky_process(index)
     return string.format("${font4}${top name %s } ${font5}${goto 135}${top pid %s } ${goto 190}${top cpu %s }%% ${alignr}${top mem_res %s }${voffset -1}", index, index, index, index)
 end
+]]--

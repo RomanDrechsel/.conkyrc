@@ -1,6 +1,4 @@
-local fu = require("functions")
-
-local NET = { CurrentIP = "-", CurrentPing = -1, _lastInet = nil}
+NET = { CurrentIP = "-", CurrentPing = -1, _lastInet = nil}
 
 function NET:new()
     self:_getIP()
@@ -22,7 +20,7 @@ function NET:Ping()
     if self.CurrentPing == nil or self.CurrentPing <= 0 then
         local ret = "Kein Internet!"
         if self._lastInet == nil then
-            local cache = fu:read_cache("inet")
+            local cache = read_cache("inet")
             if cache  then
                 self._lastInet = tonumber(cache)
             end
@@ -45,7 +43,7 @@ function NET:Ping()
 end
 
 function NET:_getIP()
-    local ip = fu:pipe("wget -q -O- http://ipecho.net/plain; echo &")
+    local ip = pipe("wget -q -O- http://ipecho.net/plain; echo &")
     if ip then
         self.CurrentIP = ip
     else
@@ -54,12 +52,12 @@ function NET:_getIP()
 end
 
 function NET:_getPing()
-    local ping = fu:pipe("ping -c 1 -q -i 0.2 -w 1 google.com | awk -F'/' 'END{print int($6)}'")
+    local ping = pipe("ping -c 1 -q -i 0.2 -w 1 google.com | awk -F'/' 'END{print int($6)}'")
     if ping then
         self.CurrentPing = tonumber(ping)
         self._lastInet = os.time()
-        fu:write_cache("inet", self._lastInet)
+        write_cache("inet", self._lastInet)
     end
 end
 
-return NET
+NET:new()

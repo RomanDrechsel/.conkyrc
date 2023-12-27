@@ -1,10 +1,9 @@
-local fu = require("functions")
 local json = require("json")
 
-local Sensors = { Init = false, Json = nil }
+Sensors = {}
 
 function Sensors:new()
-    if fu:package_installed("sensors") == false then
+    if package_installed("sensors") == false then
         print("Package \"sensors\" not installed!")
         print("run \"sudo apt-get install lm_sensors\"")
     else
@@ -15,8 +14,8 @@ function Sensors:new()
 end
 
 function Sensors:Update()
-    local sensors = fu:pipe("sensors -j")
-    if fu:isNotEmpty(sensors) then
+    local sensors = pipe("sensors -j")
+    if isEmpty(sensors) then
         self.Json = nil
     end
 
@@ -25,5 +24,3 @@ function Sensors:Update()
         self.Json = nil
     end
 end
-
-return Sensors

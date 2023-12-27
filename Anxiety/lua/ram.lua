@@ -1,13 +1,7 @@
-local fu = require("functions")
-
-local RAM = { MemTotal = -1, MemUsed = -1, SwapTotal = -1, SwapUsed = -1 }
-
-function RAM:new()
-    return self
-end
+RAM = { MemTotal = -1, MemUsed = -1, SwapTotal = -1, SwapUsed = -1 }
 
 function RAM:Update()
-    local pipe = fu:pipe("free -b")
+    local pipe = pipe("free -b")
     if pipe then
         local mem_total, mem_used, _, _, _, _ = pipe:match("Mem:%s+(%d+)%s+(%d+)%s+(%d+)%s+(%d+)%s+(%d+)%s+(%d+)")
         local swap_total, swap_used, _ = pipe:match("Swap:%s+(%d+)%s+(%d+)%s+(%d+)")
@@ -31,10 +25,10 @@ function RAM:Usage()
     local used = nil
     local size = nil
     if self.MemUsed >= 0 then
-        used = fu:format_bytes(self.MemUsed) .. " GiB"
+        used = format_bytes(self.MemUsed) .. " GiB"
     end
     if self.MemTotal > 0 then
-        size = fu:format_bytes(self.MemTotal) .. " GiB"
+        size = format_bytes(self.MemTotal) .. " GiB"
     end
 
     if used and size then
@@ -58,10 +52,10 @@ function RAM:UsageSwap()
     local used = nil
     local size = nil
     if self.SwapUsed >= 0 then
-        used = fu:format_bytes(self.SwapUsed) .. " GiB"
+        used = format_bytes(self.SwapUsed) .. " GiB"
     end
     if self.SwapTotal > 0 then
-        size = fu:format_bytes(self.SwapTotal) .. " GiB"
+        size = format_bytes(self.SwapTotal) .. " GiB"
     end
 
     if used and size then
@@ -80,5 +74,3 @@ function RAM:PercentageSwap()
     end
     return ""
 end
-
-return RAM

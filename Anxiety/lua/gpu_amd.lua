@@ -1,19 +1,15 @@
-local fu = require("functions")
+GPU = { Path = nil, DriverVersion = "", CardName = "" }
 
-local GPU = { Sensors = nil, Path = nil, DriverVersion = "", CardName = "" }
-local last_min = -1
-
-function GPU:new(sensors)
-    self.Sensors = sensors;
+function GPU:new()
     self.Path = "/sys/class/drm/"
-    local card = fu:pipe("ls " .. self.Path .. " | grep -E '^card[0-9]+$'")
+    local card = pipe("ls " .. self.Path .. " | grep -E '^card[0-9]+$'")
     if card == nil or string.len(card) == 0 then
         card = "card0"
     end
 
     self.Path = self.Path .. card .. "/device/"
 
-    if fu:dir_exists(self.Path) then
+    if dir_exists(self.Path) then
         print("AMD-GPU Device found: " .. self.Path)
     else
         GPU.Path = nil
@@ -24,39 +20,37 @@ function GPU:new(sensors)
 end
 
 function GPU:Update()
-    if last_min < os.time() - 60 then
-        local glxinfo = fu:pipe("glxinfo | grep \"OpenGL version string\"")
+    if os.time() % 60 then
+        local glxinfo = pipe("glxinfo | grep \"OpenGL version string\"")
         if glxinfo then
             local driver = glxinfo:match("OpenGL version string: %S+ %(.*%) (.+)") or glxinfo:match("OpenGL version string: %S+ (.+)")
             if driver then
-                self.DriverVersion = fu:trim(driver)
+                self.DriverVersion = trim(driver)
             end
         end
 
-        local card = fu:pipe("xrandr --listproviders | grep \"Provider 0\"")
+        local card = pipe("xrandr --listproviders | grep \"Provider 0\"")
         if card then
             local gpuName = card:match("name:(.-) @")
             if gpuName then
                 self.CardName = gpuName
             end
         end
-
-        last_min = os.time()
     end
 end
 
 function GPU:VRAM()
     if self.Path then
-        local used = fu:pipe("cat " .. self.Path .. "mem_info_vram_used")
-        local max =  fu:pipe("cat " .. self.Path .. "mem_info_vram_total")
+        local used = pipe("cat " .. self.Path .. "mem_info_vram_used")
+        local max =  pipe("cat " .. self.Path .. "mem_info_vram_total")
 
         if used then
-            used = fu:format_bytes(used) .. " GiB"
+            used = format_bytes(used) .. " GiB"
         else
             used = "?"
         end
         if max then
-            max = fu:format_bytes(max) .. " GiB"
+            max = format_bytes(max) .. " GiB"
         else
             max = "?"
         end
@@ -67,17 +61,17 @@ function GPU:VRAM()
 end
 
 function GPU:Temp()
-    if self.Sensors ~= nil and self.Sensors.Json ~= nil then
-        local edge = self.Sensors.Json["amdgpu-pci-0300"]["edge"]["temp1_input"];
-        local junction = self.Sensors.Json["amdgpu-pci-0300"]["junction"]["temp2_input"];
+    if Sensors and Sensors.Json then
+        local edge = Sensors.Json["amdgpu-pci-0300"]["edge"]["temp1_input"];
+        local junction = Sensors.Json["amdgpu-pci-0300"]["junction"]["temp2_input"];
 
         if edge or junction then
             if edge then
-                edge = fu:toInt(edge) .. "°C"
+                edge = toInt(edge) .. "°C"
             end
 
             if junction then
-                junction = fu:toInt(junction) .. "°C"
+                junction = toInt(junction) .. "°C"
             end
 
             if edge and junction then
@@ -95,17 +89,17 @@ end
 
 function GPU:Utilization()
     if self.Path then
-        local curr = fu:pipe("grep -Pom 1 '\\d+:\\s\\K(\\d+)(?=.*\\*$)' " .. self.Path .. "pp_dpm_sclk")
-        local max = fu:pipe("cat " .. self.Path .. "pp_dpm_sclk | tail -1 | cut -c4-7")
+        local curr = pipe("grep -Pom 1 '\\d+:\\s\\K(\\d+)(?=.*\\*$)' " .. self.Path .. "pp_dpm_sclk")
+        local max = pipe("cat " .. self.Path .. "pp_dpm_sclk | tail -1 | cut -c4-7")
 
         if curr or max then
             if curr then
-                curr = fu:toInt(curr) .. " MHz"
+                curr = toInt(curr) .. " MHz"
             else
                 curr = "?"
             end
             if max then
-                max = fu:toInt(max) .. " MHz"
+                max = toInt(max) .. " MHz"
             else
                 max = "?"
             end
@@ -117,10 +111,10 @@ function GPU:Utilization()
 end
 
 function GPU:MemTemp()
-    if self.Sensors ~= nil and self.Sensors.Json ~= nil then
-        local temp = self.Sensors.Json["amdgpu-pci-0300"]["mem"]["temp3_input"];
+    if Sensors and Sensors.Json then
+        local temp = Sensors.Json["amdgpu-pci-0300"]["mem"]["temp3_input"];
         if temp then
-            return fu:toInt(temp) .. "°C"
+            return toInt(temp) .. "°C"
         end
     end
 
@@ -128,18 +122,18 @@ function GPU:MemTemp()
 end
 
 function GPU:Fan()
-    if self.Sensors ~= nil and self.Sensors.Json ~= nil then
-        local curr = self.Sensors.Json["amdgpu-pci-0300"]["fan1"]["fan1_input"];
-        local max =  self.Sensors.Json["amdgpu-pci-0300"]["fan1"]["fan1_max"];
+    if Sensors and Sensors.Json then
+        local curr = Sensors.Json["amdgpu-pci-0300"]["fan1"]["fan1_input"];
+        local max =  Sensors.Json["amdgpu-pci-0300"]["fan1"]["fan1_max"];
 
         if curr then
-            curr = fu:toInt(curr)
+            curr = toInt(curr)
             local percent = "";
             if max then
-                percent = fu:toInt(curr / max * 100)
+                percent = toInt(curr / max * 100)
                 if percent then
                     percent = math.floor(percent + 0.5)
-                    percent = " (" .. fu:toInt(curr / max * 100) .. "%)"
+                    percent = " (" .. toInt(curr / max * 100) .. "%)"
                 end
             end
             return curr .. " RPM" .. percent
@@ -150,18 +144,18 @@ function GPU:Fan()
 end
 
 function GPU:Power()
-    if self.Sensors ~= nil and self.Sensors.Json ~= nil then
-        local curr = self.Sensors.Json["amdgpu-pci-0300"]["PPT"]["power1_average"];
-        local max =  self.Sensors.Json["amdgpu-pci-0300"]["PPT"]["power1_cap"];
+    if Sensors and Sensors.Json then
+        local curr = Sensors.Json["amdgpu-pci-0300"]["PPT"]["power1_average"];
+        local max =  Sensors.Json["amdgpu-pci-0300"]["PPT"]["power1_cap"];
 
         if curr then
-            curr = fu:toInt(curr)
+            curr = toInt(curr)
             local percent = "";
             if max then
-                percent = fu:toInt(curr / max * 100)
+                percent = toInt(curr / max * 100)
                 if percent then
                     percent = math.floor(percent + 0.5)
-                    percent = " (" .. fu:toInt(curr / max * 100) .. "%)"
+                    percent = " (" .. toInt(curr / max * 100) .. "%)"
                 end
             end
             return curr .. " W" .. percent
@@ -184,5 +178,3 @@ function GPU:Graph()
     end
     return ""
 end
-
-return GPU

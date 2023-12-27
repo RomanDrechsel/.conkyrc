@@ -1,35 +1,75 @@
-local fu = require("functions")
+CPU = { CPUName = "", StatsAvail = false, Graph = nil }
 
-local CPU = { Sensors = nil, CPUName = "", StatsAvail = false }
+function CPU:new()
+    self.CPUName = pipe("grep model /proc/cpuinfo | cut -d : -f2 | tail -1 | sed 's/\\s//'")
 
-function CPU:new(sensors)
-    self.Sensors = sensors;
-    self.CPUName = fu:pipe("grep model /proc/cpuinfo | cut -d : -f2 | tail -1 | sed 's/\\s//'")
-
-    if fu:package_installed("mpstat") == false then
+    if package_installed("mpstat") == false then
         print("Package \"mpstat\" not installed!")
-        print("run \"sudo apt-get install mpstat\"")
+        print("run \"sudo dnf install mpstat\"")
     else
         self.StatsAvail = true
+        self.Graph = LineGraph:new()
     end
 
     return self
 end
 
-function CPU:Temp()
-    if self.Sensors ~= nil and self.Sensors.Json ~= nil then
-        local temp = self.Sensors.Json["coretemp-isa-0000"]["Package id 0"]["temp1_input"];
-        if temp then
-            return fu:toInt(temp) .. "°C"
-        end
+function CPU:Display(cr, y)
+    y = Draw:Header(cr, Locale.CPU, y)
+    if Config.Text then
+        Draw:Font(cr, Config.Text.Special)
     end
 
+    _, y = Draw:LeftText(cr, self.CPUName, y)
+
+    y = y + (Config.Padding * 2)
+
+    if self.Graph then
+        self.Graph:Draw(cr, Config.MarginX, y, self:Utilization())
+    end
+
+    return y
+end
+
+function CPU:Temp()
+    if Sensors and Sensors.Json then
+        local temp = Sensors.Json["coretemp-isa-0000"]["Package id 0"]["temp1_input"];
+        if temp then
+            return toInt(temp) .. "°C"
+        end
+    end
     return ""
 end
 
+function CPU:Utilization()
+    if self.StatsAvail then
+        local stat = pipe("mpstat | tail -1 | awk '{print $NF}'")
+        if stat then
+            local float = tonumber(stat:match("[%d,]+%.?%d*")) or 0
+            if float then
+                return tonumber(100.0 - float + math.random(10, 50))
+            end
+        end
+    end
+    return -1
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function CPU:Usage()
     if self.StatsAvail then
-        local stat = fu:pipe("mpstat | tail -1 | awk '{print $NF}'")
+        local stat = pipe("mpstat | tail -1 | awk '{print $NF}'")
         if stat then
             local float = tonumber(stat:match("[%d,]+%.?%d*")) or 0
             if float then
@@ -44,4 +84,9 @@ function CPU:Bar()
     return "${voffset 1}${cpubar cpu0 10,0}"
 end
 
-return CPU
+
+
+
+
+
+CPU:new()

@@ -45,8 +45,9 @@ conky.config = {
 	font3 = 'Roboto Slab:size=11',
 	font4 = 'Roboto Slab:size=9',
 	font5 = 'Roboto Mono:size=9',
-	lua_startup_hook = 'init',
-	lua_draw_hook_pre = 'main'
+	lua_startup_hook = 'startup',
+	lua_draw_hook_pre = 'pre',
+	lua_shutdown_hook = 'shutdown'
 }
 
 conky.text = [[#
