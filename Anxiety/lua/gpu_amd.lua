@@ -16,26 +16,22 @@ function GPU:new()
         print("No AMD-GPU Device found!")
     end
 
+    local card = pipe("glxinfo -B | grep -A 10 \"Extended renderer info\" | grep -E \"Device:\"")
+    if card then
+        local gpuName = card:match("Device:%s+(.-)%s*%(.+%s*%)")
+        if gpuName then
+            self.CardName = gpuName
+        end
+    end
+
+    self._runOncePerMin(self)
+
     return self
 end
 
 function GPU:Update()
-    if os.time() % 60 then
-        local glxinfo = pipe("glxinfo | grep \"OpenGL version string\"")
-        if glxinfo then
-            local driver = glxinfo:match("OpenGL version string: %S+ %(.*%) (.+)") or glxinfo:match("OpenGL version string: %S+ (.+)")
-            if driver then
-                self.DriverVersion = trim(driver)
-            end
-        end
-
-        local card = pipe("xrandr --listproviders | grep \"Provider 0\"")
-        if card then
-            local gpuName = card:match("name:(.-) @")
-            if gpuName then
-                self.CardName = gpuName
-            end
-        end
+    if os.time() % 60 == 0 then
+        self:_runOncePerMin()
     end
 end
 
@@ -103,7 +99,6 @@ function GPU:Utilization()
             else
                 max = "?"
             end
-
             return curr .. " / " .. max
         end
     end
@@ -178,3 +173,15 @@ function GPU:Graph()
     end
     return ""
 end
+
+function GPU:_runOncePerMin()
+    local glxinfo = pipe("glxinfo -B | grep -A 10 \"Extended renderer info\" | grep -E \"Version:\"")
+    if glxinfo then
+        local driver = glxinfo:match("Version:(.+)")
+        if driver then
+            self.DriverVersion = trim(driver)
+        end
+    end 
+end
+
+GPU:new()

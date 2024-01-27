@@ -33,7 +33,7 @@ if [ -n "$pid" ]; then
     kill "$pid"
 fi
 
-if [ killopt = true ]; then
+if [ $killopt = true ]; then
     output_file="tmp" 
     $conky_cmd &> "$output_file" &
 

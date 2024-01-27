@@ -174,6 +174,22 @@ function Draw:FillPolygon(cr, points, color)
     cairo_fill(cr)
 end
 
+function Draw:Circle(cr, cx, cy, r, color, linewidth)
+    self:Arc(cr, cx, cy, r, color, linewidth, 0, 2 * math.pi)
+end
+
+function Draw:Arc(cr, cx, cy, r, color, linewidth, a_start, a_end)
+    if linewidth == nil or linewidth <= 0 or r == nil or r <= 0 then
+        return
+    end
+
+    self:Color(cr, color)
+    print("ARC: " .. a_start .. " to " .. a_end .. "(" .. math.deg(a_start) .. "° to " .. math.deg(a_end) ..  "°)")
+    cairo_arc_negative(cr, cx, cy, r, a_start, a_end)
+    cairo_set_line_width(cr, linewidth)
+    cairo_stroke(cr)
+end
+
 function hexToRGBA(hex)
     if hex == nil then
         return 1, 1, 1, 1

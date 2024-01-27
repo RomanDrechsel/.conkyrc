@@ -7,11 +7,11 @@ function NET:new()
 end
 
 function NET:Update()
-    if os.time() % 60 then
+    if os.time() % 60 == 0 then
         self:_getIP()
     end
 
-    if os.time() % 5 then
+    if os.time() % 5 == 0 then
         self:_getPing()
     end
 end

@@ -8,7 +8,12 @@ function CPU:new()
         print("run \"sudo dnf install mpstat\"")
     else
         self.StatsAvail = true
-        self.Graph = LineGraph:new()
+        local config = table.pack(table.unpack(Config.PieGraph))
+        if config.Graph == nil then
+            config.Graph = {}
+        end
+        config.Graph.Radius = 35
+        self.Graph = PieGraph:new(nil, 80)
     end
 
     return self
@@ -25,7 +30,8 @@ function CPU:Display(cr, y)
     y = y + (Config.Padding * 2)
 
     if self.Graph then
-        self.Graph:Draw(cr, Config.MarginX, y, self:Utilization())
+        local util = self:Utilization()
+        self.Graph:Draw(cr, Config.MarginX, y, util, util .. "%")
     end
 
     return y

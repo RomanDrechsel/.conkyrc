@@ -1,4 +1,4 @@
-LineGraph = { Data = {}, Width = 0, Height = 0, BorderWidth = 0, BorderColor = nil, Config = nil}
+LineGraph = { Data = {}, Width = 0, Height = 0, Config = nil}
 
 function LineGraph:new(config, width, height)
     self.Data = {}

@@ -77,7 +77,7 @@ ${font}${color3}SWAP ${alignc}${color5}${lua get_ramswap_usage}${alignr}${lua ge
 # Graphics 
 ${lua_parse section_title Grafikkarte}
 ${font}${color6}${lua get_gpu}${alignr}${font4}${color4}${lua get_gpu_driver}
-${color2}${execgraph "cat /sys/class/drm/card1/device/gpu_busy_percent" 33CC33 CC5933 -t }${color}${voffset -8}
+${color2}${execgraph "cat /sys/class/drm/card0/device/gpu_busy_percent" 33CC33 CC5933 -t }${color}${voffset -8}
 ${font}${color3}GPU ${goto 70}${color5}${lua get_gpu_temp}${alignr}${lua get_gpu_utilization}
 ${color3}Memory ${goto 95}${color5}${lua get_gpu_mem_temp}${alignr}${lua get_gpu_vram}
 ${color3}Lüfter ${alignr}${color5}${lua get_gpu_fan}

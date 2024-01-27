@@ -16,7 +16,7 @@ Config.Clock = {
 -- Date
 Config.Date = {
     FontFamily = "Young Serif",
-    FontSize = 20,
+    FontSize = 18,
     FontColor = "#ffffff"
 }
 
@@ -69,5 +69,26 @@ Config.LineGraph = {
         LineWidth = 1,
         PartsX = 6,
         PartsY = 3
+    }
+}
+
+Config.PieGraph = {
+    DefaultSize = 50,
+    Background = "#00000040",
+    Graph = {
+        Color = "#00FF00",
+        EmptyColor = "#00FF0030",
+        BarWidthPercent = 40,
+        Scale = 100,
+        PaddingPercent = 5
+    },
+    Border = {
+        Color = "#007000",
+        LineWidth = 1
+    },
+    Grid = {
+        Color = "#CCCCCC30",
+        LineWidth = 1,
+        PartsX = 5,
     }
 }
