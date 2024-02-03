@@ -46,6 +46,15 @@ function Draw:RightText(cr, text, y)
     return self:Text(cr, text, x, y)
 end
 
+function Draw:PointText(cr, text, center_x, center_y)
+    local extents = cairo_text_extents_t:create()
+    cairo_text_extents(cr, text, extents)
+
+    x = center_x - (extents.width / 2)
+    y = center_y - (getFontHeight(cr) / 2)
+    return self:Text(cr, text, x, y)
+end
+
 function Draw:Font(cr, font)
     if font then
         if font.FontFamily then
@@ -175,7 +184,14 @@ function Draw:FillPolygon(cr, points, color)
 end
 
 function Draw:Circle(cr, cx, cy, r, color, linewidth)
-    self:Arc(cr, cx, cy, r, color, linewidth, 0, 2 * math.pi)
+    if linewidth == nil or linewidth <= 0 or r == nil or r <= 0 then
+        return
+    end
+
+    self:Color(cr, color)
+    cairo_arc(cr, cx, cy, r, 0, 2 * math.pi)
+    cairo_set_line_width(cr, linewidth)
+    cairo_stroke(cr)
 end
 
 function Draw:Arc(cr, cx, cy, r, color, linewidth, a_start, a_end)
@@ -184,7 +200,6 @@ function Draw:Arc(cr, cx, cy, r, color, linewidth, a_start, a_end)
     end
 
     self:Color(cr, color)
-    print("ARC: " .. a_start .. " to " .. a_end .. "(" .. math.deg(a_start) .. "° to " .. math.deg(a_end) ..  "°)")
     cairo_arc_negative(cr, cx, cy, r, a_start, a_end)
     cairo_set_line_width(cr, linewidth)
     cairo_stroke(cr)

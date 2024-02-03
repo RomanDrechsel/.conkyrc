@@ -5,12 +5,13 @@ https://conky.cc/
 
 ]]--
 
-local pwd = debug.getinfo(1, "S").source:match("@?(.*/)")
+pwd = debug.getinfo(1, "S").source:match("@?(.*/)")
 package.path = package.path .. ";" .. pwd .. "../?.lua;" .. pwd .. "?.lua"
 
 Config = {}
 Config.BackgroundImage = "background.png"
 
+json = require("json")
 require('config')
 require('language/de')
 require('cairo')
@@ -39,6 +40,10 @@ function conky_pre()
 
     if Sensors then
         Sensors:Update()
+    end
+
+    if CPU then
+        CPU:Update()
     end
 
     if GPU then

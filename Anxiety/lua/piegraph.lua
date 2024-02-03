@@ -1,41 +1,57 @@
-PieGraph = { Size = nil, Config = nil}
+PieGraph = { Config = nil}
 
-function PieGraph:new(config, size)
-    self.Data = {}
+function PieGraph:new(config, width, height)
+    local o = {}
+    setmetatable(o, self)
+    self.__index = self
+
+    o.Data = {}
     if config then
-        self:setConfig(config)
+        o:setConfig(config)
     else
-        self:setConfig(Config.PieGraph)
+        o:setConfig(Config.PieGraph)
     end
 
-    if size == nil then
-        self.Size = self.Config.DefaultSize
+    if width then
+        o.Width = width
     else
-        self.Size = size;
+        o.Width = o.Config.DefaultSize
+    end
+    if height then
+        o.Height = height
+    else
+        o.Height = o.Width
     end
 
-    if self.Size and self.Size > 0 then
-       self.Radius = self.Size / 2 * (100 - self.Config.Graph.PaddingPercent) / 100
-       self.BarWidth = self.Radius * (self.Config.Graph.BarWidthPercent / 100)
+    maxsize = o.Width
+    if o.Height and  o.Height < maxsize then
+        maxsize = o.Height
     end
 
-    return self
+    if maxsize and maxsize > 0 then
+        maxsize = maxsize * (100 - o.Config.PaddingPercent) / 100
+
+        o.BarWidth = maxsize / 2 * o.Config.Graph.BarWidthPercent / 100
+        o.Radius = (maxsize / 2)
+    end
+
+    return o
 end
 
 function PieGraph:Draw(cr, x, y, data, label)
-    if self.Size == nil or self.Size <= 0 then
+    if self.Width == nil or self.Width <= 0 then
         return
     end
 
-    if self.Config.Background then
-        Draw:FillRect(cr, x, y, self.Size, self.Size, self.Config.Background)
+    if type(data) ~= "number" then
+        data = tonumber(data) or 0
     end
 
-    local cx = x + self.Size / 2
-    local cy = y + self.Size / 2
+    local center_x = x + (self.Width / 2)
+    local center_y = y + (self.Width / 2)
 
     if self.Config.Graph.EmptyColor then
-        Draw:Circle(cr, cx, cy, self.Radius - (self.BarWidth / 2), self.Config.Graph.EmptyColor, self.BarWidth)
+        Draw:Circle(cr, center_x, center_y, self.Radius - (self.BarWidth / 2), self.Config.Graph.EmptyColor, self.BarWidth)
     end
 
     if data > self.Config.Graph.Scale then
@@ -43,27 +59,41 @@ function PieGraph:Draw(cr, x, y, data, label)
     end
 
     local angle_zero = math.rad(90)
-    --local deg = math.rad(data / self.Config.Graph.Scale * 360)
-    local deg = math.rad(30)
+    local deg = math.rad(3.6 * data)
 
+    -- main bar
     if deg > 0 then
         Draw:Color(cr, self.Config.Graph.Color)
-        Draw:Arc(cr, cx, cy, self.Radius - (self.BarWidth / 2), self.Config.Graph.Color, self.BarWidth, angle_zero, angle_zero - deg)
+        Draw:Arc(cr, center_x, center_y, self.Radius - (self.BarWidth / 2), self.Config.Graph.Color, self.BarWidth, angle_zero, angle_zero - deg)
     end
 
-
+    -- border
     if self.Config.Border.LineWidth then
         Draw:Color(cr, self.Config.Border.Color)
-        Draw:Circle(cr, cx, cy, self.Radius, nil, self.Config.Border.LineWidth)
-        Draw:Circle(cr, cx, cy, self.Radius - self.BarWidth, nil, self.Config.Border.LineWidth)
+        Draw:Circle(cr, center_x, center_y, self.Radius, nil, self.Config.Border.LineWidth)
+        Draw:Circle(cr, center_x, center_y, self.Radius - self.BarWidth, nil, self.Config.Border.LineWidth)
     end
+
+    -- label
+    if label ~= nil then
+        if type(label) ~= "table" then
+            label = { label }
+        end
+
+        Draw:Font(cr, self.Config.Graph.Label)
+        for i,line in ipairs(label) do
+            Draw:PointText(cr, line, center_x, center_y + (self.Radius * 1.4) + (getFontHeight(cr) * (i - 1)))
+        end
+    end
+
+    return y + self.Height
 end
 
 function PieGraph:setConfig(config)
     if config == nil then
         self.Config = {}
     else
-        self.Config = config
+        self.Config = table.copy(config)
     end
 
     if self.Config.Graph == nil then
@@ -75,11 +105,11 @@ function PieGraph:setConfig(config)
     if self.Config.Graph.Color == nil then
         self.Config.Graph.Color = "#00FF00"
     end
-    if self.Config.Graph.PaddingPercent == nil or self.Config.Graph.PaddingPercent > 100 or self.Config.Graph.PaddingPercent <= 0 then
-        self.Config.Graph.PaddingPercent = 100
+    if self.Config.PaddingPercent == nil or self.Config.PaddingPercent > 100 or self.Config.PaddingPercent <= 0 then
+        self.Config.PaddingPercent = 0
     end
     if self.Config.Graph.BarWidthPercent == nil or self.Config.Graph.BarWidthPercent > 100 or self.Config.Graph.BarWidthPercent <= 0 then
-        self.Config.Graph.BarWidthPercent = 20
+        self.Config.Graph.BarWidthPercent = 50
     end
 
     if self.Config.Border == nil then

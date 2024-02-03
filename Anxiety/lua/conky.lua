@@ -4,6 +4,7 @@ package.path = package.path .. ";" .. pwd .. "../?.lua;" .. pwd .. "?.lua"
 Config = {}
 Config.BackgroundImage = "background.png"
 
+json = require("json")
 require('config')
 require('language/de')
 require('cairo')
@@ -19,7 +20,6 @@ require("cpu")
 require("harddisk")
 require("ram")
 require("network")
-
 local background = nil
 
 function conky_startup()

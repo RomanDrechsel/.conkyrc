@@ -74,13 +74,19 @@ Config.LineGraph = {
 
 Config.PieGraph = {
     DefaultSize = 50,
-    Background = "#00000040",
+    Background = "#00000060",
+    PaddingPercent = 5,
     Graph = {
         Color = "#00FF00",
         EmptyColor = "#00FF0030",
-        BarWidthPercent = 40,
+        BarWidthPercent = 70,
         Scale = 100,
-        PaddingPercent = 5
+        PaddingPercent = 5,
+        Label = {
+            FontFamily = "Roboto Slab",
+            FontSize =  12,
+            FontColor = "#00FF00"
+        }
     },
     Border = {
         Color = "#007000",

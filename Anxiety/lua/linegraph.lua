@@ -1,19 +1,23 @@
-LineGraph = { Data = {}, Width = 0, Height = 0, Config = nil}
+LineGraph = { Data = {}, Config = nil}
 
 function LineGraph:new(config, width, height)
-    self.Data = {}
-    self.Width = width;
-    self.Height = height;
+    local o = {}
+    setmetatable(o, self)
+    self.__index = self
+
+    o.Data = {}
+    o.Width = width;
+    o.Height = height;
     if config then
-        self:setConfig(config)
+        o:setConfig(config)
     else
-        self:setConfig(Config.LineGraph)
+        o:setConfig(Config.LineGraph)
     end
-    return self
+    return o
 end
 
 function LineGraph:Draw(cr, x, y, data)
-    if #self.Data <= 0 and data == nil then
+    if data == nil and #self.Data <= 0 then
         return
     end
 
@@ -119,7 +123,7 @@ function LineGraph:setConfig(config)
     if config == nil then
         self.Config = {}
     else
-        self.Config = config
+        self.Config = table.copy(config)
     end
 
     if self.Config.HistoryCount == nil or self.Config.HistoryCount <= 0 then

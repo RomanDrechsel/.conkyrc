@@ -1,11 +1,9 @@
-local json = require("json")
-
 Sensors = {}
 
 function Sensors:new()
     if package_installed("sensors") == false then
         print("Package \"sensors\" not installed!")
-        print("run \"sudo apt-get install lm_sensors\"")
+        print("run \"sudo apt install lm-sensors\"")
     else
         self.Init = true
     end
