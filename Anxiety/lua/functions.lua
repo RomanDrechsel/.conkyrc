@@ -6,6 +6,17 @@ function isEmpty(string)
     return string == nil or string == ''
 end
 
+function in_array (tab, val)
+    for _, value in ipairs(tab) do
+        if value == val then
+            return true
+        end
+    end
+
+    return false
+end
+
+
 function format_bytes(bytes)
     if bytes then
         local gigabytes = tonumber(trim(bytes)) / 1024 / 1024 / 1024
@@ -25,6 +36,14 @@ end
 
 function dir_exists(dir)
     if pipe("[ -d '" .. dir .. "' ]") then
+        return true
+    else 
+        return false
+    end
+end
+
+function file_exists(file)
+    if pipe("[ -f '" .. file .. "' ]") then
         return true
     else 
         return false
@@ -91,6 +110,9 @@ function read_cache(file)
 end
 
 function split(str, delimiter)
+    if delimiter == nil then
+        delimiter = "\n"
+    end
     local result = { }
     local from  = 1
     local delim_from, delim_to = string.find( str, delimiter, from  )

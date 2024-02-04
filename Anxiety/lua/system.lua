@@ -32,71 +32,19 @@ end
 function System:Display(cr, y)
     y = Draw:Header(cr, Locale.System, y)
 
-    local b = y
-
     -- System + Kernel
-    if self.System then
-        if Config.Text then
-            Draw:Font(cr, Config.Text.Label)
-        end
-        _,b = Draw:LeftText(cr, self.System, y)
-    end
-    if self.Kernel then
-        if Config.Text then
-            Draw:Font(cr, Config.Text.Info)
-        end
-        local _,b2 = Draw:RightText(cr, self.Kernel, y);
-        if b2 > b then
-            b = b2
-        end
-    end
+    y = Draw:Row(cr, y, self.System, Config.Text.Label, nil, nil, self.Kernel, Config.Text.Info)
 
     -- Host + User
-    y = b + Config.Padding
-    if Config.Text then
-        Draw:Font(cr, Config.Text.Label)
-    end
-    _,b = Draw:LeftText(cr, Locale.Host, y)
-
-    if Config.Text then
-        Draw:Font(cr, Config.Text.Info)
-    end
-    local _,b2 = Draw:RightText(cr, self.Host .. " / " .. self.User, y);
-    if b2 > b then
-        b = b2
-    end
+    y = Draw:Row(cr, y, Locale.Host, Config.Text.Label, nil, nil, self.Host .. " / " .. self.User, Config.Text.Info)
 
     -- Uptime
-    y = b + Config.Padding
-    if Config.Text then
-        Draw:Font(cr, Config.Text.Label)
-    end
-    _,b = Draw:LeftText(cr, Locale.Uptime, y)
-
-    if Config.Text then
-        Draw:Font(cr, Config.Text.Info)
-    end
-    _,b2 = Draw:RightText(cr, uptime(), y);
-    if b2 > b then
-        b = b2
-    end
+    y = Draw:Row(cr, y, Locale.Uptime, Config.Text.Label, nil, nil, uptime(), Config.Text.Info)
 
     -- processes
-    y = b + Config.Padding
-    if Config.Text then
-        Draw:Font(cr, Config.Text.Label)
-    end
-    _,b = Draw:LeftText(cr, Locale.Processes, y)
+    y = Draw:Row(cr, y, Locale.Processes, Config.Text.Label, nil, nil, processes(), Config.Text.Info)
 
-    if Config.Text then
-        Draw:Font(cr, Config.Text.Info)
-    end
-    _,b2 = Draw:RightText(cr, processes(), y);
-    if b2 > b then
-        b = b2
-    end
-
-    return b
+    return y
 end
 
 System:new()

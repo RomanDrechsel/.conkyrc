@@ -1,5 +1,15 @@
 Config = {}
 
+-- Videocard
+Config.VideoCard = "AMD Radeon RX 7800 XT"
+
+-- Partitions
+Config.Partitions = { 
+    "/",
+    "/home",
+    "/mnt/zusatz"
+}
+
 -- Background Image
 Config.BackgroundImage = "background.png"
 Config.MarginY = 10
@@ -61,7 +71,7 @@ Config.LineGraph = {
         ScaleY = 100
     },
     Border = {
-        Color = "#6464ff",
+        Color = "#6495ff",
         LineWidth = 1
     },
     Grid = {
@@ -96,5 +106,23 @@ Config.PieGraph = {
         Color = "#CCCCCC30",
         LineWidth = 1,
         PartsX = 5,
+    }
+}
+
+Config.BarGraph = {
+    DefaultHeight = 10,
+    Background = "#00000060",
+    Graph = {
+        Color = "#008300",
+        Scale = 100
+    },
+    Border = {
+        Color = "#6495ff",
+        LineWidth = 1
+    },
+    Grid = {
+        Color = "#CCCCCC30",
+        LineWidth = 1,
+        PartsX = 5
     }
 }

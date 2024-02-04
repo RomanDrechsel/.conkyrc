@@ -16,17 +16,70 @@ function GPU:new()
         print("No AMD-GPU Device found!")
     end
 
-    local card = pipe("glxinfo -B | grep -A 10 \"Extended renderer info\" | grep -E \"Device:\"")
-    if card then
-        local gpuName = card:match("Device:%s+(.-)%s*%(.+%s*%)")
-        if gpuName then
-            self.CardName = gpuName
+    if Config.VideoCard then
+        self.CardName = Config.VideoCard
+    else
+        local card = pipe("glxinfo -B | grep -A 10 \"Extended renderer info\" | grep -E \"Device:\"")
+        if card then
+            local gpuName = card:match("Device:%s+(.-)%s*%(.+%s*%)")
+            if gpuName then
+                self.CardName = gpuName
+            end
         end
     end
+
+    self.GraphLine = LineGraph:new(Config.LineGraph, nil, 40)
 
     self._runOncePerMin(self)
 
     return self
+end
+
+function GPU:Display(cr, y)
+    y = Draw:Header(cr, Locale.VideoCard, y)
+    if self.CardName and self.CardName ~= nil then
+        if Config.Text then
+            Draw:Font(cr, Config.Text.Special)
+        end
+
+        _, y = Draw:LeftText(cr, self.CardName, y)
+        y = y + 5
+    end
+
+    if self.Path and file_exists(self.Path .. "/gpu_busy_percent") then
+        local util = pipe("cat " .. self.Path .. "/gpu_busy_percent")
+        if util == nil then
+            util = 0
+        end
+        y = self.GraphLine:Draw(cr, Config.MarginX, y, util)
+    end
+
+    -- Utilization / Temperature
+    local temp = self:Temp()
+    if temp and temp ~= "" then
+        y = Draw:Row(cr, y, Locale.GPU, Config.Text.Label, self:Temp(), Config.Text.Info, self:Utilization(), nil);
+    end
+
+    -- Memory
+    local mem = self:VRAM()
+    local memtmp = self:MemTemp()
+    if (mem and mem ~= "-") or (memtmp and memtmp ~= "") then
+        y = Draw:Row(cr, y, Locale.Memory, Config.Text.Label, self:MemTemp(), Config.Text.Info, self:VRAM(), nil);
+    end
+
+    -- Fan
+    local fan = self:Fan()
+    if fan and fan ~= "-" then
+        y = Draw:Row(cr, y, Locale.Fan, Config.Text.Label, nil, nil, self:Fan(), Config.Text.Info);
+    end
+
+    -- Power
+    local power = self:Power()
+    if power and power ~= "-" then
+        y = Draw:Row(cr, y, Locale.Power, Config.Text.Label, nil, nil, self:Power(), Config.Text.Info);
+    end
+
+    return y
 end
 
 function GPU:Update()

@@ -1,5 +1,10 @@
 RAM = { MemTotal = -1, MemUsed = -1, SwapTotal = -1, SwapUsed = -1 }
 
+function RAM:new()
+    self.GraphLine = LineGraph:new(Config.LineGraph, nil, 30)
+    return self
+end
+
 function RAM:Update()
     local pipe = pipe("free -b")
     if pipe then
@@ -21,13 +26,30 @@ function RAM:Update()
     end
 end
 
+function RAM:Display(cr, y)
+    y = Draw:Header(cr, Locale.RAM, y)
+    y = self.GraphLine:Draw(cr, Config.MarginX, y, self.MemUsed / self.MemTotal * 100)
+
+    local usage = self:Usage()
+    if usage and usage ~= "-" then
+        y = Draw:Row(cr, y, Locale.RAM, Config.Text.Label, usage, Config.Text.Info, self:Percentage(), nil)
+    end
+
+    local swap = self:UsageSwap()
+    if swap and swap ~= "-" then
+        y = Draw:Row(cr, y, Locale.Swap, Config.Text.Label, swap, Config.Text.Info)
+    end
+
+    return y
+end
+
 function RAM:Usage()
     local used = nil
     local size = nil
-    if self.MemUsed >= 0 then
+    if self.MemUsed > 0 then
         used = format_bytes(self.MemUsed) .. " GiB"
     end
-    if self.MemTotal > 0 then
+    if used and self.MemTotal > 0 then
         size = format_bytes(self.MemTotal) .. " GiB"
     end
 
@@ -51,10 +73,10 @@ end
 function RAM:UsageSwap()
     local used = nil
     local size = nil
-    if self.SwapUsed >= 0 then
+    if self.SwapUsed > 0 then
         used = format_bytes(self.SwapUsed) .. " GiB"
     end
-    if self.SwapTotal > 0 then
+    if used and self.SwapTotal > 0 then
         size = format_bytes(self.SwapTotal) .. " GiB"
     end
 
@@ -74,3 +96,5 @@ function RAM:PercentageSwap()
     end
     return ""
 end
+
+RAM:new()

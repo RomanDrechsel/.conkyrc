@@ -7,11 +7,11 @@ DEBUG(0) [./src/x11.cc:325]: Fixed xinerama area to: 2560 360 4480 1440
 conky: desktop window (6c6) is root window
 DEBUG(0) [./src/x11.cc:467]: Found ARGB Visual
 conky: window type - panel
-conky: drawing to created window (0x6200002)
+conky: drawing to created window (0x6800002)
 DEBUG(0) [./src/x11.cc:874]: leave x11_init_window()
 conky: drawing to double buffer
 AMD-GPU Device found: /sys/class/drm/card0/device/
-conky: forked to background, pid is 576585
+conky: forked to background, pid is 1398898
 
 DEBUG(0) [./src/display-output.cc:138]: Initialized display output 'x11'... 
 DEBUG(0) [./src/display-x11.cc:318]: conky: defining struts

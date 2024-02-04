@@ -43,7 +43,7 @@ function CPU:Display(cr, y)
             height = self.GraphMain.Height
         end
         Draw:FillRect(cr, Config.MarginX, y, conky_window.width - (2 * Config.MarginX), height, "#00000060")
-        
+
         -- main cpu
         local util = self:Utilization()
         if util > 0 then
@@ -85,10 +85,10 @@ function CPU:Display(cr, y)
             dy = dy + self.GraphsSmall[1].Height + 7
         end
 
-        self.GraphLine:Draw(cr, Config.MarginX, dy, util)
+        y = self.GraphLine:Draw(cr, Config.MarginX, dy, util)
     end
 
-    return dy
+    return y
 end
 
 function CPU:Temp()

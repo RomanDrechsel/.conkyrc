@@ -58,7 +58,7 @@ function PieGraph:Draw(cr, x, y, data, label)
         data = self.Config.Graph.Scale
     end
 
-    local angle_zero = math.rad(90)
+    local angle_zero = math.rad(30)
     local deg = math.rad(3.6 * data)
 
     -- main bar

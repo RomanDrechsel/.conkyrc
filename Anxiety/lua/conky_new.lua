@@ -19,6 +19,7 @@ require("functions")
 require('draw')
 require('linegraph')
 require('piegraph')
+require('bargraph')
 require("sensors")
 require('clock')
 require('system')
@@ -79,6 +80,15 @@ function conky_pre()
         end
         if CPU then
             y = CPU:Display(cr, y)
+        end
+        if RAM then
+            y = RAM:Display(cr, y)
+        end
+        if GPU then
+            y = GPU:Display(cr, y)
+        end
+        if Disk then
+            y = Disk:Display(cr, y)
         end
     end
 

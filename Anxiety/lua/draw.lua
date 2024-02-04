@@ -23,18 +23,22 @@ function Draw:Text(cr, text, x, y)
     cairo_stroke(cr)
 
     x = x + extents.x_advance
-    return x,y
+    return x, y
 end
 
 function Draw:LeftText(cr, text, y)
     return self:Text(cr, text, Config.MarginX, y)
 end
 
-function Draw:CenterText(cr, text, y)
+function Draw:CenterText(cr, text, y, offset_x)
     local extents = cairo_text_extents_t:create()
     cairo_text_extents(cr, text, extents)
 
-    local x = (conky_window.width / 2) - (extents.width / 2)
+    if offset_x == nil then
+        offset_x = 0
+    end
+
+    local x = (conky_window.width / 2) - (extents.width / 2) + offset_x
     return self:Text(cr, text, x, y)
 end
 
@@ -53,6 +57,38 @@ function Draw:PointText(cr, text, center_x, center_y)
     x = center_x - (extents.width / 2)
     y = center_y - (getFontHeight(cr) / 2)
     return self:Text(cr, text, x, y)
+end
+
+function Draw:Row(cr, y, text_left, font_left, text_center, font_center, text_right, font_right)
+    local bottom = y
+    if text_left then
+        if font_left then
+            Draw:Font(cr, font_left)
+        end
+        _, bottom = Draw:LeftText(cr, text_left, y)
+    end
+
+    if text_center then
+        if font_center then
+            Draw:Font(cr, font_center)
+        end
+        local _,b = Draw:CenterText(cr, text_center, y, -30);
+        if b > bottom then
+            bottom = b
+        end
+    end
+
+    if text_right then
+        if font_right then
+            Draw:Font(cr, font_right)
+        end
+        local _,b = Draw:RightText(cr, text_right, y);
+        if b > bottom then
+            bottom = b
+        end
+    end
+
+    return bottom + Config.Padding
 end
 
 function Draw:Font(cr, font)
@@ -203,6 +239,23 @@ function Draw:Arc(cr, cx, cy, r, color, linewidth, a_start, a_end)
     cairo_arc_negative(cr, cx, cy, r, a_start, a_end)
     cairo_set_line_width(cr, linewidth)
     cairo_stroke(cr)
+end
+
+function textWidth(cr, texts)
+    if type(texts) ~= "table" then
+        texts = { texts }
+    end
+
+    local width = 0
+    for _, t in ipairs(texts) do
+        local extents = cairo_text_extents_t:create()
+        cairo_text_extents(cr, t, extents)
+        if width < extents.x_advance then
+            width = extents.x_advance
+        end
+    end
+
+    return width
 end
 
 function hexToRGBA(hex)

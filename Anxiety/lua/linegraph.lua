@@ -21,6 +21,10 @@ function LineGraph:Draw(cr, x, y, data)
         return
     end
 
+    if type(data) ~= "number" then
+        data = tonumber(data) or 0
+    end
+
     local width = self.Width
     if width == nil then
         width = conky_window.width - x - Config.MarginX
@@ -43,10 +47,12 @@ function LineGraph:Draw(cr, x, y, data)
         end
     end
 
+    -- background
     if self.Config.Background then
         Draw:FillRect(cr, x, y, width, height, self.Config.Background)
     end
 
+    -- grid
     if self.Config.Grid.LineWidth and self.Config.Grid.Color then
         Draw:Color(cr, self.Config.Grid.Color)
         if self.Config.Grid.PartsX then
@@ -97,6 +103,7 @@ function LineGraph:Draw(cr, x, y, data)
     table.insert(points, x + width)
     table.insert(points, oy)
 
+    -- lines
     if self.Config.Graph and self.Config.Graph.LineColor then
         Draw:FillPolygon(cr, points, self.Config.Graph.Background)
         if self.Config.Border and self.Config.Border.LineWidth and self.Config.Border.LineWidth > 0 then
@@ -112,6 +119,7 @@ function LineGraph:Draw(cr, x, y, data)
         Draw:Polygon(cr, points, self.Config.Graph.LineColor, self.Config.Graph.LineWidth)
     end
 
+    -- border
     if self.Config.Border and self.Config.Border.LineWidth then
         Draw:Rect(cr, x, y, width, height, self.Config.Border.LineWidth, self.Config.Border.Color)
     end

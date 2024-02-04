@@ -9,3 +9,14 @@ Locale.Uptime = "Uptime"
 Locale.Processes = "Prozesse"
 
 Locale.CPU = "CPU"
+
+Locale.RAM = "RAM"
+Locale.Swap = "SWAP"
+
+Locale.VideoCard = "Grafikkarte"
+Locale.GPU = "GPU"
+Locale.Memory = "Memory"
+Locale.Fan = "Lüfter"
+Locale.Power = "Verbrauch"
+
+Locale.Disk = "Festplatte"
