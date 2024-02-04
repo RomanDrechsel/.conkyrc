@@ -53,9 +53,9 @@ function Disk:Usage(used, size)
 
     if used > 0 then
         if size > 0 then
-            return format_bytes(used) .. " GiB / " .. format_bytes(size) .. " GiB"
+            return format_bytes(used) .. " / " .. format_bytes(size)
         else
-            return format_bytes(used) .. " GiB"
+            return format_bytes(used)
         end
     end
 

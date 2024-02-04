@@ -4,11 +4,17 @@ Config = {}
 Config.VideoCard = "AMD Radeon RX 7800 XT"
 
 -- Partitions
-Config.Partitions = { 
+Config.Partitions = {
     "/",
     "/home",
     "/mnt/zusatz"
 }
+
+-- Network interface
+Config.Network = {}
+Config.Network.Interface = "enp0s31f6"
+Config.Network.DownloadMaxBytePerSecond = 14417920
+Config.Network.UploadMaxBytesPerSecond = 4063232
 
 -- Background Image
 Config.BackgroundImage = "background.png"
@@ -58,6 +64,11 @@ Config.Text.Special = {
     FontColor = "#e5c9ff",
     Bold = true
 }
+Config.Text.Large = {
+    FontFamily = "Roboto Slab",
+    FontSize =  14,
+    FontColor = "#9adaff",
+}
 
 -- Graphs
 Config.LineGraph = {
@@ -68,7 +79,7 @@ Config.LineGraph = {
         LineColor = "#00FF00",
         LineWidth = 1,
         Background = "#FFFF0040",
-        ScaleY = 100
+        Scale = 100
     },
     Border = {
         Color = "#6495ff",
@@ -124,5 +135,20 @@ Config.BarGraph = {
         Color = "#CCCCCC30",
         LineWidth = 1,
         PartsX = 5
+    }
+}
+
+Config.NetworkGraph = {
+    Download = {
+        LineColor = "#ecd400",
+        LineWidth = 1,
+        Background = "#ecd40040",
+        Scale = Config.Network.DownloadMaxBytePerSecond
+    },
+    Upload = {
+        LineColor = "#005be8",
+        LineWidth = 1,
+        Background = "#005be840",
+        Scale = Config.Network.UploadMaxBytesPerSecond
     }
 }

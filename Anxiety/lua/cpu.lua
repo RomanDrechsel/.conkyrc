@@ -2,7 +2,6 @@ CPU = { CPUName = "", StatsAvail = false, GraphMain = nil }
 
 function CPU:new()
     self.CPUName = pipe("grep model /proc/cpuinfo | cut -d : -f2 | tail -1 | sed 's/\\s//'")
-    self._mpstatFile = home() .. ".cache/conky/Anxiety/mpstat"
     self._json = nil
 
     if package_installed("mpstat") == false then
@@ -104,7 +103,7 @@ end
 function CPU:Update()
     self.Utilizations = nil
     if self.StatsAvail then
-        os.execute(pwd .. "../bash/monitor.sh \"" .. self._mpstatFile .."\" &")
+        os.execute(pwd .. "../bash/mpstat.sh \"" .. CacheDir .. "mpstat\" &")
         local mpstat = read_cache("mpstat")
         if mpstat ~= nil then
             self._json = json.parse(mpstat)

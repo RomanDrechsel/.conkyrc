@@ -47,10 +47,10 @@ function RAM:Usage()
     local used = nil
     local size = nil
     if self.MemUsed > 0 then
-        used = format_bytes(self.MemUsed) .. " GiB"
+        used = format_bytes(self.MemUsed)
     end
     if used and self.MemTotal > 0 then
-        size = format_bytes(self.MemTotal) .. " GiB"
+        size = format_bytes(self.MemTotal)
     end
 
     if used and size then
@@ -74,10 +74,10 @@ function RAM:UsageSwap()
     local used = nil
     local size = nil
     if self.SwapUsed > 0 then
-        used = format_bytes(self.SwapUsed) .. " GiB"
+        used = format_bytes(self.SwapUsed)
     end
     if used and self.SwapTotal > 0 then
-        size = format_bytes(self.SwapTotal) .. " GiB"
+        size = format_bytes(self.SwapTotal)
     end
 
     if used and size then

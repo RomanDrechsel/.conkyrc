@@ -8,6 +8,7 @@ function LineGraph:new(config, width, height)
     o.Data = {}
     o.Width = width;
     o.Height = height;
+    o.Lines = {}
     if config then
         o:setConfig(config)
     else
@@ -19,10 +20,6 @@ end
 function LineGraph:Draw(cr, x, y, data)
     if data == nil and #self.Data <= 0 then
         return
-    end
-
-    if type(data) ~= "number" then
-        data = tonumber(data) or 0
     end
 
     local width = self.Width
@@ -73,50 +70,70 @@ function LineGraph:Draw(cr, x, y, data)
         end
     end
 
-    if data == nil or data < 0 then
-        data = 0
+    -- add data to collection
+    if data == nil then
+        data = { ["line"] = 0 }
+    elseif type(data) ~= "table" then
+        data = { ["line"] = data }
     end
 
-    table.insert(self.Data, data)
-    while #self.Data > historycount do
-        table.remove(self.Data, 1)
-    end
-
-    local dx = x + width
-    local oy = y + height
-    local points = { dx, oy }
-
-    for i = #self.Data, 1, -1 do
-        local value = self.Data[i]
-        if value > self.Config.Graph.ScaleX then
-            value = self.Config.Graph.ScaleX
+    for des, line_data in pairs(data) do
+        if type(line_data) ~= "number" then
+            line_data = tonumber(line_data) or 0
         end
-        table.insert(points, dx)
-        table.insert(points, oy - math.floor(height * value / self.Config.Graph.ScaleX))
-        dx = dx - math.floor((width / (historycount - 1)) + 0.5)
-        if dx < x then
-            dx = x
+
+        if self.Data[des] == nil then
+            self.Data[des] = {}
+        end
+        table.insert(self.Data[des], line_data)
+        while #self.Data[des] > historycount do
+            table.remove(self.Data[des], 1)
+        end
+
+        if self.Lines[des] == nil then
+            self.Lines[des] = self.Config.Graph
         end
     end
-    table.insert(points, dx)
-    table.insert(points, oy)
-    table.insert(points, x + width)
-    table.insert(points, oy)
 
-    -- lines
-    if self.Config.Graph and self.Config.Graph.LineColor then
-        Draw:FillPolygon(cr, points, self.Config.Graph.Background)
-        if self.Config.Border and self.Config.Border.LineWidth and self.Config.Border.LineWidth > 0 then
-            table.remove(points, 1)
-            table.remove(points, 1)
-            table.remove(points, #points)
-            table.remove(points, #points)
-            if #self.Data >= historycount then
-                table.remove(points, #points)
-                table.remove(points, #points)
+    -- draw line(s)
+    for des, line_data in pairs(self.Data) do
+        local dx = x + width
+        local oy = y + height
+        local points = { dx, oy }
+
+        for i = #line_data, 1, -1 do
+            local value = line_data[i]
+            if value > self.Lines[des].Scale then
+                value = self.Lines[des].Scale
+            end
+            table.insert(points, dx)
+            table.insert(points, oy - math.floor(height * value / self.Lines[des].Scale))
+            dx = dx - math.floor((width / (historycount - 1)) + 0.5)
+            if dx < x then
+                dx = x
             end
         end
-        Draw:Polygon(cr, points, self.Config.Graph.LineColor, self.Config.Graph.LineWidth)
+        table.insert(points, dx)
+        table.insert(points, oy)
+        table.insert(points, x + width)
+        table.insert(points, oy)
+        if self.Lines[des] then
+            if self.Lines[des].Background then
+                Draw:FillPolygon(cr, points, self.Lines[des].Background)
+            end
+            if self.Lines[des].LineColor and self.Lines[des].LineWidth and self.Lines[des].LineWidth > 0 then
+                table.remove(points, 1)
+                table.remove(points, 1)
+                table.remove(points, #points)
+                table.remove(points, #points)
+                if #self.Data >= historycount then
+                    table.remove(points, #points)
+                    table.remove(points, #points)
+                end
+                Draw:Polygon(cr, points, self.Lines[des].LineColor, self.Lines[des].LineWidth)
+            end
+        end
+
     end
 
     -- border
@@ -144,7 +161,7 @@ function LineGraph:setConfig(config)
     if self.Config.Graph == nil then
         self.Config.Graph = {}
     end
-    if self.Config.Graph.ScaleX == nil then
+    if self.Config.Graph.Scale == nil then
         self.Config.Graph.ScaleX = 100
     end
     if self.Config.Border == nil then

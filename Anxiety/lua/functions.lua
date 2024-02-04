@@ -19,9 +19,22 @@ end
 
 function format_bytes(bytes)
     if bytes then
-        local gigabytes = tonumber(trim(bytes)) / 1024 / 1024 / 1024
-        local str = string.format("%.2f", gigabytes)
-        return str
+        bytes = tonumber(trim(bytes))
+        if bytes > 1073741824 then
+            local gigabytes = bytes / 1073741824
+            local str = string.format("%.2f", gigabytes)
+            return str .. " Gb"
+        elseif bytes > 1048576 then
+            local megabytes = bytes / 1048576
+            local str = string.format("%.2f", megabytes)
+            return str .. " Mb"
+        elseif bytes > 1024 then
+            local kilobytes = bytes / 1048576
+            local str = string.format("%.2f", kilobytes)
+            return str .. " Kb"
+        else    
+            return bytes .. " b"
+        end
     end
     return -1
 end

@@ -94,12 +94,12 @@ function GPU:VRAM()
         local max =  pipe("cat " .. self.Path .. "mem_info_vram_total")
 
         if used then
-            used = format_bytes(used) .. " GiB"
+            used = format_bytes(used)
         else
             used = "?"
         end
         if max then
-            max = format_bytes(max) .. " GiB"
+            max = format_bytes(max)
         else
             max = "?"
         end

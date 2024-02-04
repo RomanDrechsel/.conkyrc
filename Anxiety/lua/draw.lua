@@ -42,11 +42,15 @@ function Draw:CenterText(cr, text, y, offset_x)
     return self:Text(cr, text, x, y)
 end
 
-function Draw:RightText(cr, text, y)
+function Draw:RightText(cr, text, y, right_x)
     local extents = cairo_text_extents_t:create()
     cairo_text_extents(cr, text, extents)
 
-    local x = conky_window.width - extents.width - Config.MarginX
+    if right_x == nil then
+        right_x = conky_window.width - Config.MarginX
+    end
+
+    local x = right_x - extents.width
     return self:Text(cr, text, x, y)
 end
 
