@@ -20,7 +20,7 @@ function BarGraph:new(config, height)
 end
 
 function BarGraph:Draw(cr, x, y, data)
-    if data == nil then
+    if data == nil or self.Height == nill or self.Height < 0 then
         data = 0
     end
     if type(data) ~= "number" then
@@ -68,6 +68,6 @@ function BarGraph:setConfig(config)
     if config == nil then
         self.Config = {}
     else
-        self.Config = table.copy(config)
+        self.Config = table_copy(config)
     end
 end

@@ -39,7 +39,7 @@ function PieGraph:new(config, width, height)
 end
 
 function PieGraph:Draw(cr, x, y, data, label)
-    if self.Width == nil or self.Width <= 0 then
+    if self.Width == nil or self.Width <= 0 or self.Config.Graph.Color == nil then
         return
     end
 
@@ -91,31 +91,15 @@ end
 
 function PieGraph:setConfig(config)
     if config == nil then
-        self.Config = {}
+        self.Config = table_copy(Config.PieGraph)
     else
-        self.Config = table.copy(config)
+        self.Config = table_copy(config)
     end
 
     if self.Config.Graph == nil then
         self.Config.Graph = {}
     end
-    if self.Config.Graph.Scale == nil then
-        self.Config.Graph.Scale = 100
-    end
-    if self.Config.Graph.Color == nil then
-        self.Config.Graph.Color = "#00FF00"
-    end
     if self.Config.PaddingPercent == nil or self.Config.PaddingPercent > 100 or self.Config.PaddingPercent <= 0 then
         self.Config.PaddingPercent = 0
-    end
-    if self.Config.Graph.BarWidthPercent == nil or self.Config.Graph.BarWidthPercent > 100 or self.Config.Graph.BarWidthPercent <= 0 then
-        self.Config.Graph.BarWidthPercent = 50
-    end
-
-    if self.Config.Border == nil then
-        self.Config.Border = {}
-    end
-    if self.Config.Grid == nil then
-        self.Config.Grid = {}
     end
 end

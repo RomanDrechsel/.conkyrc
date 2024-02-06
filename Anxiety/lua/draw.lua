@@ -125,7 +125,7 @@ end
 
 function Draw:Header(cr, text, y)
 
-    y = y + (Config.Padding * 4)
+    y = y + (2 * Config.Padding)
 
     self:Font(cr, Config.Header)
     local x, y = self:Text(cr, text, Config.MarginX, y)
@@ -133,7 +133,7 @@ function Draw:Header(cr, text, y)
 
     self:Line(cr, x, y - 2, -1, y - 2, 2)
 
-    y = y + (Config.Padding * 2)
+    y = y + Config.Padding
 
     return y
 end

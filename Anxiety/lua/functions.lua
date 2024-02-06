@@ -6,7 +6,7 @@ function isEmpty(string)
     return string == nil or string == ''
 end
 
-function in_array (tab, val)
+function in_array(tab, val)
     for _, value in ipairs(tab) do
         if value == val then
             return true
@@ -15,7 +15,6 @@ function in_array (tab, val)
 
     return false
 end
-
 
 function format_bytes(bytes)
     if bytes then
@@ -88,11 +87,11 @@ function toInt(number)
     return -1
 end
 
-function table.copy(t)
+function table_copy(t)
     local ret = {};
     for k,v in pairs(t) do
         if type(v) == "table" then
-            ret[k] = table.copy(v);
+            ret[k] = table_copy(v);
         else
             ret[k] = v;
         end

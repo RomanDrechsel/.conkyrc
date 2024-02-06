@@ -148,7 +148,7 @@ function LineGraph:setConfig(config)
     if config == nil then
         self.Config = {}
     else
-        self.Config = table.copy(config)
+        self.Config = table_copy(config)
     end
 
     if self.Config.HistoryCount == nil or self.Config.HistoryCount <= 0 then
@@ -162,7 +162,7 @@ function LineGraph:setConfig(config)
         self.Config.Graph = {}
     end
     if self.Config.Graph.Scale == nil then
-        self.Config.Graph.ScaleX = 100
+        self.Config.Graph.Scale = 100
     end
     if self.Config.Border == nil then
         self.Config.Border = {}

@@ -62,14 +62,6 @@ function Disk:Usage(used, size)
     return ""
 end
 
-function Disk:Percentage()
-    if self.Percent then
-        return self.Percent
-    end
-
-    return ""
-end
-
 function Disk:Update()
     if Config.Partitions then
         if type(Config.Partitions) ~= "table" then
@@ -87,27 +79,6 @@ function Disk:Update()
                     self._df[mount] = { size = toInt(size) * 1024, used = toInt(used) * 1024, percent = percent }
                 end
             end
-        end
-    end
-    
-    local disk = pipe("df -P --sync | grep -E ' /$'")
-    if disk then
-        local _, size, used, _, percent, _ = disk:match("(%S+)%s+(%S+)%s+(%S+)%s+(%S+)%s+(%S+)%s+(%S+)")
-
-        if size then
-            self.Size = toInt(size) * 1024
-        else
-            self.Size = -1
-        end
-        if used then
-            self.Used = toInt(used) * 1024
-        else
-            self.Used = -1
-        end
-        if percent then
-            self.Percent = percent
-        else
-            self.Percent = ""
         end
     end
 end

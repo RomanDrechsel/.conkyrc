@@ -16,7 +16,7 @@ function Processes:Display(cr, y)
     _, y = Draw:RightText(cr, Locale.MEM, y, Config.MarginX + (5 * width))
 
     Draw:Font(cr, Config.Text.Info)
-    for i=1,11,1 do
+    for i=1,10,1 do
         if y + getFontHeight(cr) > conky_window.height then
             break
         end

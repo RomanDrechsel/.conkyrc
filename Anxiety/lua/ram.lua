@@ -1,7 +1,9 @@
 RAM = { MemTotal = -1, MemUsed = -1, SwapTotal = -1, SwapUsed = -1 }
 
 function RAM:new()
-    self.GraphLine = LineGraph:new(Config.LineGraph, nil, 30)
+    if Config.LineGraph.Graph.LineColor and Config.LineGraph.Graph.LineWidth and Config.LineGraph.Graph.LineWidth > 0 then
+        self.GraphLine = LineGraph:new(Config.LineGraph, nil, 30)
+    end
     return self
 end
 
@@ -28,7 +30,9 @@ end
 
 function RAM:Display(cr, y)
     y = Draw:Header(cr, Locale.RAM, y)
-    y = self.GraphLine:Draw(cr, Config.MarginX, y, self.MemUsed / self.MemTotal * 100)
+    if self.GraphLine then
+        y = self.GraphLine:Draw(cr, Config.MarginX, y, self.MemUsed / self.MemTotal * 100)
+    end
 
     local usage = self:Usage()
     if usage and usage ~= "-" then
@@ -37,7 +41,7 @@ function RAM:Display(cr, y)
 
     local swap = self:UsageSwap()
     if swap and swap ~= "-" then
-        y = Draw:Row(cr, y, Locale.Swap, Config.Text.Label, swap, Config.Text.Info)
+        y = Draw:Row(cr, y, Locale.Swap, Config.Text.Label, swap, Config.Text.Info, self:PercentageSwap(), nil)
     end
 
     return y

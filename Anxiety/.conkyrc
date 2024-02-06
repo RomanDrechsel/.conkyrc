@@ -1,3 +1,10 @@
+local pipe = io.popen("xrandr --current | grep '*' | uniq | awk 'NR==2 {print $1}' | cut -d 'x' -f 2")
+local height = 2000
+if pipe then
+	height = tonumber(pipe:read("*a"))
+	pipe:close()
+end
+
 conky.config = {
     lua_load = '/home/roman/MyStuff/Coding/Github/Conky/Anxiety/lua/conky.lua', --lua_load
 	background = true,
@@ -16,101 +23,19 @@ conky.config = {
 	own_window_argb_visual = true,
 	own_window_hints = 'undecorated,above,sticky,skip_taskbar,skip_pager',
 	own_window_colour = '000000',
-	own_window_transparent = true,
-	border_inner_margin = 5,
-	border_outer_margin = 0,
+	own_window_transparent = false,
 	show_graph_scale = false,
-	default_graph_height = 45,
-	top_name_width = 18,
 	alignment = 'top_right',
 	gap_x = 5,
 	gap_y = 0,
 	xinerama_head = 1,
 	use_xft = true,
-	font = 'Roboto Slab:bold:size=10',
-	uppercase = false,
-	default_color = 'white',
 	maximum_width = 295,
 	minimum_width = 295,
-	minimum_height = 1500,
-	draw_graph_borders = true,
-	color1 = 'c587ff',
-	color2 = '90EE90',
-	color3 = '61bdff',
-	color4 = 'd1eeff',
-	color5 = '9adaff',
-	color6 = 'e5c9ff',
-	font1 = 'EP Boxi:bold:10',
-	font2 = 'Roboto Slab:bold:size=11',
-	font3 = 'Roboto Slab:size=11',
-	font4 = 'Roboto Slab:size=9',
-	font5 = 'Roboto Mono:size=9',
-	lua_startup_hook = 'startup',
+	minimum_height = height,
 	lua_draw_hook_pre = 'pre',
 	lua_shutdown_hook = 'shutdown'
 }
 
-conky.text = [[#
-# Clock
-${voffset 15}${color 72aeef}${font EP Boxi:bi:size=28}${alignc}${time %H:%M:%S}
-${font Young Serif:size=14}${color}${alignc}${time %A, %d. %B %Y}${voffset -5}
-#
-# System
-${lua_parse section_title System}
-${font}${color3}${no_update $sysname} ${no_update $kernel}${alignr}${color5}${no_update $machine}
-${color3}Host / User${alignr}${color5}${no_update $nodename} / ${exec whoami}
-${color3}Uptime${alignr}${color5}$uptime
-${color3}Prozesse${alignr}${color5}${execi 1 ps aux | wc -l}
-#
-# CPU
-${lua_parse section_title CPU}
-${font}${color6}${lua get_cpu}
-${color2}${cpugraph cpu0 33CC33 CC5933 -t}${voffset -10}
-${color3}${font}CPU ${offset 5}${color5}${lua get_cpu_temp }${goto 85}${lua get_cpu_usage} ${goto 125}${color2}${lua_parse get_cpu_bar}
-#
-# RAM
-${lua_parse section_title RAM}
-${color2}${memgraph 33CC33 CC5933 -t}${voffset -5}
-${font}${color3}RAM ${alignc}${color5}${lua get_ram_usage}${alignr}${lua get_ram_percentage}
-${font}${color3}SWAP ${alignc}${color5}${lua get_ramswap_usage}${alignr}${lua get_ramswap_percentage}
-#
-# Graphics 
-${lua_parse section_title Grafikkarte}
-${font}${color6}${lua get_gpu}${alignr}${font4}${color4}${lua get_gpu_driver}
-${color2}${execgraph "cat /sys/class/drm/card0/device/gpu_busy_percent" 33CC33 CC5933 -t }${color}${voffset -8}
-${font}${color3}GPU ${goto 70}${color5}${lua get_gpu_temp}${alignr}${lua get_gpu_utilization}
-${color3}Memory ${goto 95}${color5}${lua get_gpu_mem_temp}${alignr}${lua get_gpu_vram}
-${color3}Lüfter ${alignr}${color5}${lua get_gpu_fan}
-${color3}Verbrauch ${alignr}${color5}${lua get_gpu_power}
-#
-# Festplatte
-${lua_parse section_title Festplatte}
-${font}${color5}${lua get_disk_temp}${alignc}${lua get_disk_usage}${alignr}${lua get_disk_percentage}
-${color2}${fs_bar /}${voffset -5}
-#
-# Network
-${lua_parse section_title Netzwerk}
-${font}${color3}Externe IP:${alignr}Ping:
-${font3}${color4}${lua get_externip}${alignr}${lua get_ping}
-${goto 30}${font}${color3}Down:${offset 10}${color4}${font3}${voffset -2}${downspeed enp0s31f6}${font}${goto 190}${color3}Up:${offset 10}${font3}${color4}${voffset -2}${upspeed enp0s31f6}${voffset -5}
-${color2}${downspeedgraph enp0s31f6 80,145 33CC33 CC5933 14417920 -t}${alignr}${upspeedgraph enp0s31f6 80,145 33CC33 CC5933 4063232 -t}${voffset -5}
-#${color2}${downspeedgraph enp0s31f6 80,145 33CC33 33CC33 -t -l}${alignr}${upspeedgraph enp0s31f6 80,145 33CC33 33CC33 -t -l}${voffset -5}
-# graphscale: down: 110Mbit/s - up: 31Mbit/s
-# calculation: 
-# 110MBit/s / 8 = 13.75Mb/s (1 byte = 8 bit)<br />
-# 13.75Mb/s * 1048576 = 14417920 b/s (1 megabyte = 1024*1024 bytes)
-#
-#Processes
-${lua_parse section_title Prozesse}
-${color3}${font Roboto Mono:bold:size=11}Name ${goto 156}PID ${goto 210}CPU ${alignr} MEM${color4}${voffset -5}
-${lua_parse process 1}
-${lua_parse process 2}
-${lua_parse process 3}
-${lua_parse process 4}
-${lua_parse process 5}
-${lua_parse process 6}
-${lua_parse process 7}
-${lua_parse process 8}
-${lua_parse process 9}
-${lua_parse process 10}
+conky.text = [[	
 ]]

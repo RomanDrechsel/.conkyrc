@@ -9,14 +9,19 @@ function CPU:new()
         print("run \"sudo apt install sysstat\"")
     else
         self.StatsAvail = true
-        self._configMainGraph = table.copy(Config.PieGraph)
-        self._configMainGraph.Graph.Radius = 35
-        self.GraphMain = PieGraph:new(self._configMainGraph, 80, 130)
-        self._configSmallGraph = table.copy(Config.PieGraph)
-        self._configSmallGraph.Graph.BarWidthPercent = 75
-        self._configSmallGraph.Graph.Label.FontSize = 10
-        self._configSmallGraph.PaddingPercent = 20
-        self.GraphLine = LineGraph:new(Config.LineGraph, nil, 30)
+        if Config.PieGraph.Graph.Color then
+            local configMainGraph = table_copy(Config.PieGraph)
+            configMainGraph.Graph.Radius = 35
+            self.GraphMain = PieGraph:new(configMainGraph, 80, 130)
+       
+            self._configSmallGraph = table_copy(Config.PieGraph)
+            self._configSmallGraph.Graph.BarWidthPercent = 75
+            self._configSmallGraph.Graph.Label.FontSize = 10
+            self._configSmallGraph.PaddingPercent = 20
+        end
+        if Config.LineGraph.Graph.LineColor and Config.LineGraph.Graph.LineWidth and Config.LineGraph.Graph.LineWidth > 0 then
+            self.GraphLine = LineGraph:new(Config.LineGraph, nil, 30)
+        end
     end
 
     return self
@@ -55,36 +60,44 @@ function CPU:Display(cr, y)
 
         local dx = rx
         local dy = y
-        local i = 1;
 
-        for _,line in ipairs(self._json) do
-            if line["cpu"] ~= "all" then
-                if self.GraphsSmall[i] == nil then
-                    table.insert(self.GraphsSmall, PieGraph:new(self._configSmallGraph, 28, 38))
+        if self._configSmallGraph then
+            local i = 1;
+
+            for _,line in ipairs(self._json) do
+                if line["cpu"] ~= "all" then
+                    if self.GraphsSmall[i] == nil then
+                        table.insert(self.GraphsSmall, PieGraph:new(self._configSmallGraph, 28, 38))
+                    end
+
+                    local usage = tonumber(line["usage"])
+                    if usage >= 100 then
+                        usage = toInt(usage)
+                    elseif usage >= 10 then
+                        usage = tonumber(string.format("%.1f", usage))
+                    end
+
+                    self.GraphsSmall[i]:Draw(cr, dx, dy, line["usage"], usage .. "%")
+                    dx = dx + self.GraphsSmall[i].Width + 7
+                    if dx > conky_window.width - Config.MarginX - self.GraphsSmall[i].Width then
+                        dx = rx
+                        dy = dy + self.GraphsSmall[i].Height + 7
+                    end
+
+                    i = i + 1
                 end
-
-                local usage = tonumber(line["usage"])
-                if usage >= 100 then
-                    usage = toInt(usage)
-                elseif usage >= 10 then
-                    usage = tonumber(string.format("%.1f", usage))
-                end
-
-                self.GraphsSmall[i]:Draw(cr, dx, dy, line["usage"], usage .. "%")
-                dx = dx + self.GraphsSmall[i].Width + 7
-                if dx > conky_window.width - Config.MarginX - self.GraphsSmall[i].Width then
-                    dx = rx
-                    dy = dy + self.GraphsSmall[i].Height + 7
-                end
-
-                i = i + 1
+            end
+            if #self.GraphsSmall > 0 then
+                dy = dy + self.GraphsSmall[1].Height + 7
             end
         end
-        if #self.GraphsSmall > 0 then
-            dy = dy + self.GraphsSmall[1].Height + 7
+
+        y = dy;
+
+        if self.GraphLine then
+            y = self.GraphLine:Draw(cr, Config.MarginX, y, util)
         end
 
-        y = self.GraphLine:Draw(cr, Config.MarginX, dy, util)
     end
 
     return y
@@ -120,23 +133,6 @@ function CPU:Utilization()
         end
     end
     return tonumber(conky_parse("${cpu cpu" .. cpu .. "}"))
-end
-
-function CPU:Usage()
-    if self.StatsAvail then
-        local stat = pipe("mpstat | tail -1 | awk '{print $NF}'")
-        if stat then
-            local float = tonumber(stat:match("[%d,]+%.?%d*")) or 0
-            if float then
-                return (100.0 - float) .. "%"
-            end
-        end
-    end
-    return ""
-end
-
-function CPU:Bar()
-    return "${voffset 1}${cpubar cpu0 10,0}"
 end
 
 CPU:new()

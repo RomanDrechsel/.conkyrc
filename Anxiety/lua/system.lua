@@ -92,7 +92,7 @@ function processes()
         if pse == psu or psu == nil then
             return pse
         else
-            return psu .. " (" .. pse .. ")"
+            return pse .. " (" .. psu .. ")"
         end
     end
 

@@ -1,28 +1,28 @@
 Locale = {}
 
-Locale.Clock = "%H:%M:%S"
-Locale.Date = "%A, %d. %B %Y"
+Locale.Clock = "%I:%M:%S%p"
+Locale.Date = "%A, %B %d. %Y"
 
 Locale.System = "System"
 Locale.Host = "Host / User"
 Locale.Uptime = "Uptime"
-Locale.Processes = "Prozesse"
+Locale.Processes = "Processes"
 
 Locale.CPU = "CPU"
 
 Locale.RAM = "RAM"
 Locale.Swap = "SWAP"
 
-Locale.VideoCard = "Grafikkarte"
+Locale.VideoCard = "Video"
 Locale.GPU = "GPU"
 Locale.Memory = "Memory"
-Locale.Fan = "Lüfter"
-Locale.Power = "Verbrauch"
+Locale.Fan = "Fan"
+Locale.Power = "Usage"
 
-Locale.Disk = "Festplatte"
+Locale.Disk = "Hard disk"
 
 Locale.Network = "Internet"
-Locale.ExternIP = "Externe IP"
+Locale.ExternIP = "External IP"
 Locale.Ping = "Ping"
 
 Locale.Name = "Name"

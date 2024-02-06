@@ -1,4 +1,6 @@
 Config = {}
+-- Conky language
+Config.Language = "de"
 
 -- Videocard
 Config.VideoCard = "AMD Radeon RX 7800 XT"
@@ -69,7 +71,6 @@ Config.Text.Large = {
     FontSize =  14,
     FontColor = "#9adaff",
 }
-
 -- Graphs
 Config.LineGraph = {
     DefaultHeight = 50,

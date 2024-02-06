@@ -1,11 +1,15 @@
 Clock = {}
 
 function Clock:Display(cr, y)
-    Draw:Font(cr, Config.Clock)
-    _, y = Draw:CenterText(cr, os.date(Locale.Clock), y)
+    if Config.Clock then
+        Draw:Font(cr, Config.Clock)
+        _, y = Draw:CenterText(cr, os.date(Locale.Clock), y)
+    end
 
-    Draw:Font(cr, Config.Date)
-    _, y = Draw:CenterText(cr, os.date(Locale.Date), y)
+    if Config.Date then
+        Draw:Font(cr, Config.Date)
+        _, y = Draw:CenterText(cr, os.date(Locale.Date), y)
+    end
     
     return y
 end

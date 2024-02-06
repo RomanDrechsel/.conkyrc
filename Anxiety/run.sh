@@ -1,6 +1,6 @@
 #!/bin/bash
 
-conky_cmd="conky -D -c .conkyrc_new"
+conky_cmd="conky -D -c .conkyrc"
 
 killcmd=false
 killopt=true

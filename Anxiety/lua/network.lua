@@ -4,12 +4,14 @@ function NET:new()
     self:_getIP()
     self:_getPing()
     self._json = nil
-    self.Graph = LineGraph:new(Config.LineGraph, nil, 60)
+    if Config.NetworkGraph then
+        self.Graph = LineGraph:new(Config.LineGraph, nil, 60)
 
-    self.Graph.Lines = {
-        ["down"] = Config.NetworkGraph.Download,
-        ["up"] = Config.NetworkGraph.Upload,
-    }
+        self.Graph.Lines = {
+            ["down"] = Config.NetworkGraph.Download,
+            ["up"] = Config.NetworkGraph.Upload,
+        }
+    end
     return self
 end
 
@@ -20,7 +22,7 @@ function NET:Display(cr, y)
 
     y = Draw:Row(cr, y, self.CurrentIP, Config.Text.Large, nil, nil, self:Ping(), nil)
 
-    if self._json then
+    if self._json and self.Graph then
         local down = self._json["speed_down"]
         local up = self._json["speed_up"]
         local speed = self:Speed()
@@ -34,7 +36,7 @@ function NET:Display(cr, y)
             ["up"] = up,
         }
 
-        y = self.Graph:Draw(cr, Config.MarginX, y + 10, data)
+        y = self.Graph:Draw(cr, Config.MarginX, y + 5, data)
     end
 
     return y

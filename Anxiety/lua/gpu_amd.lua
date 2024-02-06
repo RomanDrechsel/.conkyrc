@@ -16,6 +16,7 @@ function GPU:new()
         print("No AMD-GPU Device found!")
     end
 
+    self.DriverVersion = nil
     if Config.VideoCard then
         self.CardName = Config.VideoCard
     else
@@ -28,7 +29,9 @@ function GPU:new()
         end
     end
 
-    self.GraphLine = LineGraph:new(Config.LineGraph, nil, 40)
+    if Config.LineGraph.Graph.LineColor and Config.LineGraph.Graph.LineWidth and Config.LineGraph.Graph.LineWidth > 0 then
+        self.GraphLine = LineGraph:new(Config.LineGraph, nil, 40)
+    end
 
     self._runOncePerMin(self)
 
@@ -37,6 +40,10 @@ end
 
 function GPU:Display(cr, y)
     y = Draw:Header(cr, Locale.VideoCard, y)
+
+    y2 = y
+
+    -- card name
     if self.CardName and self.CardName ~= nil then
         if Config.Text then
             Draw:Font(cr, Config.Text.Special)
@@ -46,7 +53,14 @@ function GPU:Display(cr, y)
         y = y + 5
     end
 
-    if self.Path and file_exists(self.Path .. "/gpu_busy_percent") then
+    -- driver version
+    if self.DriverVersion then
+        Draw:Font(cr, Config.Text.Info)
+        Draw:RightText(cr, self.DriverVersion, y2)
+    end
+
+    -- graph
+    if self.GraphLine and self.Path and file_exists(self.Path .. "/gpu_busy_percent") then
         local util = pipe("cat " .. self.Path .. "/gpu_busy_percent")
         if util == nil then
             util = 0
@@ -212,21 +226,6 @@ function GPU:Power()
     return "-"
 end
 
-function GPU:Card()
-    return self.CardName
-end
-
-function GPU:Driver()
-    return self.DriverVersion
-end
-
-function GPU:Graph()
-    if self.Path then
-        return conky_parse("${execgraph \"cat " .. self.Path .. "/gpu_busy_percent\" 33CC33 CC5933 -t }")
-    end
-    return ""
-end
-
 function GPU:_runOncePerMin()
     local glxinfo = pipe("glxinfo -B | grep -A 10 \"Extended renderer info\" | grep -E \"Version:\"")
     if glxinfo then
@@ -234,7 +233,7 @@ function GPU:_runOncePerMin()
         if driver then
             self.DriverVersion = trim(driver)
         end
-    end 
+    end
 end
 
 GPU:new()
