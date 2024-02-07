@@ -10,6 +10,8 @@ else
 fi
 mpstat=$(mpstat -P ALL 1 1)
 
+tmp="${cache}_tmp}"
+
 if [ -n "$mpstat" ]; then
     json="["
     IFS=$'\n' read -a lines -d '' <<< "$mpstat"
@@ -20,14 +22,13 @@ if [ -n "$mpstat" ]; then
             if [[ "$cpu" != "CPU" && "$idle" != "%idle" ]]; then
                 idle="${idle//,/\.}"
                 usage=$(awk "BEGIN { print 100 - $idle }")
-                json+="\n { \"cpu\": \"$cpu\", \"usage\": \"$usage\" },"
-            fi
-            
-            
+                json+=" { \"cpu\": \"$cpu\", \"usage\": \"$usage\" },"
+            fi            
         fi
     done
     json="${json%,}"
-    json+="\n]"
+    json+=" ]"
 
-    echo -e "$json" > "$cache"
+    echo -e "$json" > "$tmp"
+    mv -f "$tmp" "$cache"
 fi

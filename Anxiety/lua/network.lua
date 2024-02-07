@@ -57,8 +57,10 @@ function NET:Update()
 
     local cache = read_cache("network")
     if cache then
-        self._json = json.parse(cache)
-        if self._json == json.null then
+        local success, _json = pcall(json.parse, cache)
+        if success and _json and _json ~= json.null then
+            self._json = _json
+        else
             self._json = nil
         end
     else

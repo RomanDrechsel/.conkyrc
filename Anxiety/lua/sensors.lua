@@ -15,10 +15,12 @@ function Sensors:Update()
     local sensors = pipe("sensors -j")
     if isEmpty(sensors) then
         self.Json = nil
-    end
-
-    self.Json = json.parse(sensors)
-    if self.Json == json.null then
-        self.Json = nil
+    else
+        local success, _json = pcall(json.parse, sensors)
+        if success and _json and _json ~= json.null then
+            self.Json = _json
+        else
+            self.Json = nil
+        end
     end
 end

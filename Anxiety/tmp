@@ -7,13 +7,141 @@ DEBUG(0) [./src/x11.cc:325]: Fixed xinerama area to: 2560 360 4480 1440
 conky: desktop window (6c6) is root window
 DEBUG(0) [./src/x11.cc:467]: Found ARGB Visual
 conky: window type - panel
-conky: drawing to created window (0x6200002)
+conky: drawing to created window (0x6e00002)
 DEBUG(0) [./src/x11.cc:874]: leave x11_init_window()
 conky: drawing to double buffer
-{ ["Text"] = { ["Label"] = { ["Bold"] = true,["FontFamily"] = Roboto Slab,["FontSize"] = 12,["FontColor"] = #61bdff,} ,["Large"] = { ["FontSize"] = 14,["FontFamily"] = Roboto Slab,["FontColor"] = #9adaff,} ,["Info"] = { ["Bold"] = true,["FontFamily"] = Roboto Slab,["FontSize"] = 12,["FontColor"] = #9adaff,} ,["Special"] = { ["Bold"] = true,["FontFamily"] = Roboto Slab,["FontSize"] = 13,["FontColor"] = #e5c9ff,} ,} ,["MarginX"] = 5,["Header"] = { ["Bold"] = true,["FontFamily"] = EP Boxi,["FontSize"] = 16,["FontColor"] = #c587ff,} ,["Network"] = { ["Interface"] = enp0s31f6,["DownloadMaxBytePerSecond"] = 14417920,["UploadMaxBytesPerSecond"] = 4063232,} ,["VideoCard"] = AMD Radeon RX 7800 XT,["Clock"] = { ["FontSize"] = 36,["FontFamily"] = EP Boxi,["FontColor"] = #72aeef,} ,["Padding"] = 3,["LineGraph"] = { ["Border"] = { ["Color"] = #6495ff,["LineWidth"] = 1,} ,["DefaultHeight"] = 50,["Graph"] = { ["LineWidth"] = 1,["Scale"] = 100,["Background"] = #FFFF0040,["LineColor"] = #00FF00,} ,["HistoryCount"] = 60,["Background"] = #00000040,["Grid"] = { ["PartsX"] = 6,["Color"] = #CCCCCC30,["LineWidth"] = 1,["PartsY"] = 3,} ,} ,["BarGraph"] = { ["Border"] = { ["Color"] = #6495ff,["LineWidth"] = 1,} ,["DefaultHeight"] = 10,["Graph"] = { ["Color"] = #008300,["Scale"] = 100,} ,["Background"] = #00000060,["Grid"] = { ["Color"] = #CCCCCC30,["LineWidth"] = 1,["PartsX"] = 5,} ,} ,["Language"] = de,["Partitions"] = { [1] = /,[2] = /home,[3] = /mnt/zusatz,} ,["NetworkGraph"] = { ["Upload"] = { ["LineWidth"] = 1,["Scale"] = 4063232,["Background"] = #005be840,["LineColor"] = #005be8,} ,["Download"] = { ["LineWidth"] = 1,["Scale"] = 14417920,["Background"] = #ecd40040,["LineColor"] = #ecd400,} ,} ,["Date"] = { ["FontSize"] = 18,["FontFamily"] = Young Serif,["FontColor"] = #ffffff,} ,["BackgroundImage"] = background.png,["MarginY"] = 10,["PieGraph"] = { ["PaddingPercent"] = 5,["Border"] = { ["Color"] = #007000,["LineWidth"] = 1,} ,["Background"] = #00000060,["DefaultSize"] = 50,["Graph"] = { ["BarWidthPercent"] = 70,["EmptyColor"] = #00FF0030,["Label"] = { ["FontSize"] = 12,["FontFamily"] = Roboto Slab,["FontColor"] = #00FF00,} ,["Color"] = #00FF00,["Scale"] = 100,["PaddingPercent"] = 5,} ,["Grid"] = { ["Color"] = #CCCCCC30,["LineWidth"] = 1,["PartsX"] = 5,} ,} ,} 
+{ ["VideoCard"] = AMD Radeon RX 7800 XT,["MarginX"] = 5,["Text"] = { ["Label"] = { ["FontColor"] = #61bdff,["FontFamily"] = Roboto Slab,["FontSize"] = 12,["Bold"] = true,} ,["Special"] = { ["FontColor"] = #e5c9ff,["FontFamily"] = Roboto Slab,["FontSize"] = 13,["Bold"] = true,} ,["Large"] = { ["FontColor"] = #9adaff,["FontFamily"] = Roboto Slab,["FontSize"] = 14,} ,["Info"] = { ["FontColor"] = #9adaff,["FontFamily"] = Roboto Slab,["FontSize"] = 12,["Bold"] = true,} ,} ,["MarginY"] = 10,["Network"] = { ["UploadMaxBytesPerSecond"] = 4063232,["Interface"] = enp0s31f6,["DownloadMaxBytePerSecond"] = 14417920,} ,["Partitions"] = { [1] = /,[2] = /home,[3] = /mnt/zusatz,} ,["BarGraph"] = { ["Grid"] = { ["PartsX"] = 5,["Color"] = #CCCCCC30,["LineWidth"] = 1,} ,["Background"] = #00000060,["Graph"] = { ["Scale"] = 100,["Color"] = #008300,} ,["DefaultHeight"] = 10,["Border"] = { ["Color"] = #6495ff,["LineWidth"] = 1,} ,} ,["Language"] = de,["Padding"] = 3,["LineGraph"] = { ["Grid"] = { ["Color"] = #CCCCCC30,["PartsX"] = 6,["PartsY"] = 3,["LineWidth"] = 1,} ,["HistoryCount"] = 60,["Graph"] = { ["Scale"] = 100,["LineWidth"] = 1,["LineColor"] = #00FF00,["Background"] = #FFFF0040,} ,["DefaultHeight"] = 50,["Background"] = #00000040,["Border"] = { ["Color"] = #6495ff,["LineWidth"] = 1,} ,} ,["Header"] = { ["FontColor"] = #c587ff,["FontFamily"] = EP Boxi,["FontSize"] = 16,["Bold"] = true,} ,["PieGraph"] = { ["Grid"] = { ["PartsX"] = 5,["Color"] = #CCCCCC30,["LineWidth"] = 1,} ,["DefaultSize"] = 50,["Background"] = #00000060,["PaddingPercent"] = 5,["Graph"] = { ["EmptyColor"] = #00FF0030,["Color"] = #00FF00,["PaddingPercent"] = 5,["Scale"] = 100,["BarWidthPercent"] = 70,["Label"] = { ["FontColor"] = #00FF00,["FontFamily"] = Roboto Slab,["FontSize"] = 12,} ,} ,["Border"] = { ["Color"] = #007000,["LineWidth"] = 1,} ,} ,["Date"] = { ["FontColor"] = #ffffff,["FontFamily"] = Young Serif,["FontSize"] = 18,} ,["BackgroundImage"] = background.png,["Clock"] = { ["FontColor"] = #72aeef,["FontFamily"] = EP Boxi,["FontSize"] = 36,} ,["NetworkGraph"] = { ["Download"] = { ["Scale"] = 14417920,["LineWidth"] = 1,["LineColor"] = #ecd400,["Background"] = #ecd40040,} ,["Upload"] = { ["Scale"] = 4063232,["LineWidth"] = 1,["LineColor"] = #005be8,["Background"] = #005be840,} ,} ,} 
 AMD-GPU Device found: /sys/class/drm/card0/device/
-conky: forked to background, pid is 833695
+mv: cannot move '/home/roman/.cache/conky/Anxiety/network_tmp}' to '/home/roman/.cache/conky/Anxiety/network': No such file or directory
+conky: forked to background, pid is 2629142
 
 DEBUG(0) [./src/display-output.cc:138]: Initialized display output 'x11'... 
 DEBUG(0) [./src/display-x11.cc:318]: conky: defining struts
 
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot move '/home/roman/.cache/conky/Anxiety/mpstat_tmp}' to '/home/roman/.cache/conky/Anxiety/mpstat': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot move '/home/roman/.cache/conky/Anxiety/network_tmp}' to '/home/roman/.cache/conky/Anxiety/network': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot move '/home/roman/.cache/conky/Anxiety/mpstat_tmp}' to '/home/roman/.cache/conky/Anxiety/mpstat': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot move '/home/roman/.cache/conky/Anxiety/network_tmp}' to '/home/roman/.cache/conky/Anxiety/network': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot move '/home/roman/.cache/conky/Anxiety/network_tmp}' to '/home/roman/.cache/conky/Anxiety/network': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot move '/home/roman/.cache/conky/Anxiety/network_tmp}' to '/home/roman/.cache/conky/Anxiety/network': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/network_tmp}': No such file or directory
+mv: cannot stat '/home/roman/.cache/conky/Anxiety/mpstat_tmp}': No such file or directory

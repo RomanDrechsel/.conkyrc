@@ -119,7 +119,10 @@ function CPU:Update()
         os.execute(pwd .. "../bash/mpstat.sh \"" .. CacheDir .. "mpstat\" &")
         local mpstat = read_cache("mpstat")
         if mpstat ~= nil then
-            self._json = json.parse(mpstat)
+            local success, _json = pcall(json.parse, mpstat)
+            if success and _json and _json ~= json.null then
+                self._json = _json;
+            end
         end
     end
 end
