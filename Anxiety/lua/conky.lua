@@ -14,8 +14,6 @@ require('config')
 require('safe_config')
 Config = safe_config(Config)
 
-print(dump(Config))
-
 require('language/' .. Config.Language)
 require('cairo')
 

@@ -3,12 +3,11 @@ Config = {}
 Config.Language = "de"
 
 -- Videocard
-Config.VideoCard = "AMD Radeon RX 7800 XT"
+Config.VideoCard = nil
 
 -- Partitions
 Config.Partitions = {
     "/",
-    "/home",
     "/mnt/zusatz"
 }
 

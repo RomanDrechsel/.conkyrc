@@ -5,6 +5,8 @@ if pipe then
 	pipe:close()
 end
 
+print("Height: " .. height)
+
 conky.config = {
     lua_load = '/home/roman/MyStuff/Coding/Github/Conky/Anxiety/lua/conky.lua', --lua_load
 	background = true,

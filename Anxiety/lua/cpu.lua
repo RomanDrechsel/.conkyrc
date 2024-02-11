@@ -37,7 +37,7 @@ function CPU:Display(cr, y)
 
     y = y + (Config.Padding * 2)
 
-    if self.GraphMain and self._json then
+    if self.GraphMain then
         -- Background
         local num_cpu = #self._json - 1
         local rx = Config.MarginX + self.GraphMain.Width + 10
@@ -58,10 +58,9 @@ function CPU:Display(cr, y)
             self.GraphsSmall = {}
         end
 
-        local dx = rx
-        local dy = y
-
-        if self._configSmallGraph then
+        if self._configSmallGraph and self._json then
+            local dx = rx
+            local dy = y
             local i = 1;
 
             for _,line in ipairs(self._json) do
@@ -90,9 +89,14 @@ function CPU:Display(cr, y)
             if #self.GraphsSmall > 0 then
                 dy = dy + self.GraphsSmall[1].Height + 7
             end
+            if dy > y + height then
+                y = dy;
+            else
+                y = y + height
+            end
+        else
+            y = y + height
         end
-
-        y = dy;
 
         if self.GraphLine then
             y = self.GraphLine:Draw(cr, Config.MarginX, y, util)
@@ -135,7 +139,7 @@ function CPU:Utilization()
             end
         end
     end
-    return tonumber(conky_parse("${cpu cpu" .. cpu .. "}"))
+    return tonumber(conky_parse("${cpu cpu0}"))
 end
 
 CPU:new()
