@@ -9,7 +9,9 @@ if [ -n "$2" ]; then
 else
     cache="$HOME/.cache/conky/Anxiety/network"
 fi
-tmp="${cache}_tmp}"
+current_time=$(date +%s)
+modulus=$((current_time % 5))
+tmp="${cache}${modulus}"
 
 function get_bytes()
 {
@@ -31,6 +33,8 @@ if [ -n $1 ] && [ -f "/proc/net/dev" ]; then
         json+="{ \"speed_down\": \"$vel_recv\", \"speed_up\": \"$vel_trans\", \"total_down\": \"$received_bytes\", \"total_up\": \"$transmitted_bytes\" }"
 
         echo -e "$json" > "$tmp"
-        mv -f "$tmp" "$cache"
+        if [ -f "$tmp" ]; then
+            mv -f "$tmp" "$cache"
+        fi
     fi
 fi

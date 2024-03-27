@@ -10,7 +10,9 @@ else
 fi
 mpstat=$(mpstat -P ALL 1 1)
 
-tmp="${cache}_tmp}"
+current_time=$(date +%s)
+modulus=$((current_time % 5))
+tmp="${cache}${modulus}"
 
 if [ -n "$mpstat" ]; then
     json="["
@@ -31,6 +33,8 @@ if [ -n "$mpstat" ]; then
     json="${json%,}"
     json+=" ]"
 
-    echo -e "$json" > "$tmp"
-    mv -f "$tmp" "$cache"
+    echo "$json" > "$tmp"
+    if [ -f "$tmp" ]; then
+        mv -f "$tmp" "$cache"
+    fi
 fi

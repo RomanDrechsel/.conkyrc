@@ -9,6 +9,7 @@ Config.VideoCard = nil
 Config.Partitions = {
     "/",
     "/mnt/zusatz"
+    "/swap",
 }
 
 -- Network interface
