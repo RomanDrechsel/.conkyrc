@@ -8,8 +8,8 @@ Config.VideoCard = nil
 -- Partitions
 Config.Partitions = {
     "/",
-    "/mnt/zusatz"
-    "/swap",
+    "/mnt/zusatz",
+    "/swap"
 }
 
 -- Network interface
