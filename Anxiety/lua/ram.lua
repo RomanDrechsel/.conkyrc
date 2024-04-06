@@ -8,7 +8,7 @@ function RAM:new()
 end
 
 function RAM:Update()
-    local pipe = pipe("free -b")
+    local pipe = pipe("LANG=C && free -b")
     if pipe then
         local mem_total, mem_used, _, _, _, _ = pipe:match("Mem:%s+(%d+)%s+(%d+)%s+(%d+)%s+(%d+)%s+(%d+)%s+(%d+)")
         local swap_total, swap_used, _ = pipe:match("Swap:%s+(%d+)%s+(%d+)%s+(%d+)")
@@ -77,11 +77,11 @@ end
 function RAM:UsageSwap()
     local used = nil
     local size = nil
-    if self.SwapUsed > 0 then
-        used = format_bytes(self.SwapUsed)
-    end
-    if used and self.SwapTotal > 0 then
+    if self.SwapTotal > 0 then
         size = format_bytes(self.SwapTotal)
+    end
+    if size and self.SwapUsed > 0 then
+        used = format_bytes(self.SwapTotal)
     end
 
     if used and size then
