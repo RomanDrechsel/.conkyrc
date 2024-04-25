@@ -8,7 +8,7 @@ end
 print("Height: " .. height)
 
 conky.config = {
-    lua_load = '/home/roman/MyStuff/Coding/Github/Conky/Anxiety/lua/conky.lua', --lua_load
+    lua_load = '/home/roman/MyStuff/Coding/Github/MyConky/Anxiety/lua/conky.lua', --lua_load
 	background = true,
 	update_interval = 1,
 	cpu_avg_samples = 4,
@@ -39,5 +39,5 @@ conky.config = {
 	lua_shutdown_hook = 'shutdown'
 }
 
-conky.text = [[	
+conky.text = [[
 ]]
