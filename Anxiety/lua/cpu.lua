@@ -12,15 +12,14 @@ function CPU:new()
         if Config.PieGraph.Graph.Color then
             local configMainGraph = table_copy(Config.PieGraph)
             configMainGraph.Graph.Radius = 35
-            self.GraphMain = PieGraph:new(configMainGraph, 80, 130)
-       
+            self.GraphMain = PieGraph:new(configMainGraph, 90, 170)
             self._configSmallGraph = table_copy(Config.PieGraph)
             self._configSmallGraph.Graph.BarWidthPercent = 75
-            self._configSmallGraph.Graph.Label.FontSize = 10
+            self._configSmallGraph.Graph.Label.FontSize = 12
             self._configSmallGraph.PaddingPercent = 20
         end
         if Config.LineGraph.Graph.LineColor and Config.LineGraph.Graph.LineWidth and Config.LineGraph.Graph.LineWidth > 0 then
-            self.GraphLine = LineGraph:new(Config.LineGraph, nil, 30)
+            self.GraphLine = LineGraph:new(Config.LineGraph, nil, 50)
         end
     end
 
@@ -66,7 +65,7 @@ function CPU:Display(cr, y)
             for _,line in ipairs(self._json) do
                 if line["cpu"] ~= "all" then
                     if self.GraphsSmall[i] == nil then
-                        table.insert(self.GraphsSmall, PieGraph:new(self._configSmallGraph, 28, 38))
+                        table.insert(self.GraphsSmall, PieGraph:new(self._configSmallGraph, 35, 50))
                     end
 
                     local usage = tonumber(line["usage"])

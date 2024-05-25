@@ -1,11 +1,9 @@
 local pipe = io.popen("xrandr --current | grep '*' | uniq | awk 'NR==2 {print $1}' | cut -d 'x' -f 2")
-local height = 2000
+local height = 2400
 if pipe then
 	height = tonumber(pipe:read("*a"))
 	pipe:close()
 end
-
-print("Height: " .. height)
 
 conky.config = {
     lua_load = '/home/roman/MyStuff/Coding/Github/MyConky/Anxiety/lua/conky.lua', --lua_load
@@ -32,8 +30,8 @@ conky.config = {
 	gap_y = 0,
 	xinerama_head = 1,
 	use_xft = true,
-	maximum_width = 295,
-	minimum_width = 295,
+	maximum_width = 350,
+    minimum_width = 350,
 	minimum_height = height,
 	lua_draw_hook_pre = 'pre',
 	lua_shutdown_hook = 'shutdown'

@@ -2,7 +2,7 @@ RAM = { MemTotal = -1, MemUsed = -1, SwapTotal = -1, SwapUsed = -1 }
 
 function RAM:new()
     if Config.LineGraph.Graph.LineColor and Config.LineGraph.Graph.LineWidth and Config.LineGraph.Graph.LineWidth > 0 then
-        self.GraphLine = LineGraph:new(Config.LineGraph, nil, 30)
+        self.GraphLine = LineGraph:new(Config.LineGraph, nil, 50)
     end
     return self
 end

@@ -125,7 +125,7 @@ end
 
 function Draw:Header(cr, text, y)
 
-    y = y + (2 * Config.Padding)
+    y = y + (3 * Config.Padding)
 
     self:Font(cr, Config.Header)
     local x, y = self:Text(cr, text, Config.MarginX, y)

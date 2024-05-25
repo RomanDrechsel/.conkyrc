@@ -5,7 +5,7 @@ function NET:new()
     self:_getPing()
     self._json = nil
     if Config.NetworkGraph then
-        self.Graph = LineGraph:new(Config.LineGraph, nil, 60)
+        self.Graph = LineGraph:new(Config.LineGraph, nil, 80)
 
         self.Graph.Lines = {
             ["down"] = Config.NetworkGraph.Download,
@@ -163,7 +163,7 @@ function NET:_getPing()
         self.CurrentPing = tonumber(ping)
         self._lastInet = os.time()
         write_cache("inet", self._lastInet)
-    else 
+    else
         self.CurrentPing = 0
     end
 end

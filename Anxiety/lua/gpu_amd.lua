@@ -30,7 +30,7 @@ function GPU:new()
     end
 
     if Config.LineGraph.Graph.LineColor and Config.LineGraph.Graph.LineWidth and Config.LineGraph.Graph.LineWidth > 0 then
-        self.GraphLine = LineGraph:new(Config.LineGraph, nil, 40)
+        self.GraphLine = LineGraph:new(Config.LineGraph, nil, 80)
     end
 
     self._runOncePerMin(self)

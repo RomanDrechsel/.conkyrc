@@ -21,26 +21,26 @@ Config.Network.UploadMaxBytesPerSecond = 4063232
 Config.BackgroundImage = "background.png"
 Config.MarginY = 10
 Config.MarginX = 5
-Config.Padding = 3
+Config.Padding = 4
 
 -- Clock
 Config.Clock = {
     FontFamily = "EP Boxi",
-    FontSize = 36,
+    FontSize = 46,
     FontColor = "#72aeef"
 }
 
 -- Date
 Config.Date = {
     FontFamily = "Young Serif",
-    FontSize = 18,
+    FontSize = 24,
     FontColor = "#ffffff"
 }
 
 -- Header
 Config.Header = {
     FontFamily = "EP Boxi",
-    FontSize =  16,
+    FontSize =  20,
     FontColor = "#c587ff",
     Bold = true
 }
@@ -49,30 +49,30 @@ Config.Header = {
 Config.Text = {}
 Config.Text.Label = {
     FontFamily = "Roboto Slab",
-    FontSize =  12,
+    FontSize =  14,
     FontColor = "#61bdff",
     Bold = true
 }
 Config.Text.Info = {
     FontFamily = "Roboto Slab",
-    FontSize =  12,
+    FontSize =  14,
     FontColor = "#9adaff",
     Bold = true
 }
 Config.Text.Special = {
     FontFamily = "Roboto Slab",
-    FontSize =  13,
+    FontSize =  15,
     FontColor = "#e5c9ff",
     Bold = true
 }
 Config.Text.Large = {
     FontFamily = "Roboto Slab",
-    FontSize =  14,
+    FontSize =  18,
     FontColor = "#9adaff",
 }
 -- Graphs
 Config.LineGraph = {
-    DefaultHeight = 50,
+    DefaultHeight = 100,
     HistoryCount = 60,
     Background = "#00000040",
     Graph = {
@@ -94,7 +94,7 @@ Config.LineGraph = {
 }
 
 Config.PieGraph = {
-    DefaultSize = 50,
+    DefaultSize = 100,
     Background = "#00000060",
     PaddingPercent = 5,
     Graph = {
@@ -105,7 +105,7 @@ Config.PieGraph = {
         PaddingPercent = 5,
         Label = {
             FontFamily = "Roboto Slab",
-            FontSize =  12,
+            FontSize =  14,
             FontColor = "#00FF00"
         }
     },
@@ -121,7 +121,7 @@ Config.PieGraph = {
 }
 
 Config.BarGraph = {
-    DefaultHeight = 10,
+    DefaultHeight = 15,
     Background = "#00000060",
     Graph = {
         Color = "#008300",
