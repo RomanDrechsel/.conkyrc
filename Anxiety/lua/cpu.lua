@@ -19,7 +19,7 @@ function CPU:new()
             self._configSmallGraph.PaddingPercent = 20
         end
         if Config.LineGraph.Graph.LineColor and Config.LineGraph.Graph.LineWidth and Config.LineGraph.Graph.LineWidth > 0 then
-            self.GraphLine = LineGraph:new(Config.LineGraph, nil, 50)
+            self.GraphLine = LineGraph:new(Config.LineGraph, nil, 70)
         end
     end
 
