@@ -3,7 +3,7 @@
 Conky:
 https://conky.cc/
 
-]]--
+]] --
 
 pwd = debug.getinfo(1, "S").source:match("@?(.*/)")
 package.path = package.path .. ";" .. pwd .. "../?.lua;" .. pwd .. "?.lua"
@@ -16,6 +16,7 @@ Config = safe_config(Config)
 
 require('language/' .. Config.Language)
 require('cairo')
+require('cairo_xlib')
 
 CacheDir = home() .. ".cache/conky/Anxiety/"
 
@@ -47,10 +48,6 @@ function conky_pre()
         Sensors:Update()
     end
 
-    if CPU then
-        CPU:Update()
-    end
-
     if GPU then
         GPU:Update()
     end
@@ -67,7 +64,8 @@ function conky_pre()
         NET:Update()
     end
 
-    local cs = cairo_xlib_surface_create(conky_window.display, conky_window.drawable, conky_window.visual, conky_window.width, conky_window.height)
+    local cs = cairo_xlib_surface_create(conky_window.display, conky_window.drawable, conky_window.visual,
+        conky_window.width, conky_window.height)
     local cr = cairo_create(cs)
 
     if background == nil and Config.BackgroundImage then
