@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo apt-get install lm-sensors sysstat
+#sudo apt-get install lm-sensors sysstat
 
 dir="$(pwd;)";
 

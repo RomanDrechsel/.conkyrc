@@ -9,6 +9,7 @@ Config.VideoCard = nil
 Config.Partitions = {
     "/",
     "/mnt/zusatz",
+    "/mnt/backup"
 }
 
 -- Network interface
@@ -40,7 +41,7 @@ Config.Date = {
 -- Header
 Config.Header = {
     FontFamily = "EP Boxi",
-    FontSize =  18,
+    FontSize = 18,
     FontColor = "#c587ff",
     Bold = true
 }
@@ -49,25 +50,25 @@ Config.Header = {
 Config.Text = {}
 Config.Text.Label = {
     FontFamily = "Roboto Slab",
-    FontSize =  14,
+    FontSize = 14,
     FontColor = "#61bdff",
     Bold = true
 }
 Config.Text.Info = {
     FontFamily = "Roboto Slab",
-    FontSize =  14,
+    FontSize = 14,
     FontColor = "#9adaff",
     Bold = true
 }
 Config.Text.Special = {
     FontFamily = "Roboto Slab",
-    FontSize =  15,
+    FontSize = 15,
     FontColor = "#e5c9ff",
     Bold = true
 }
 Config.Text.Large = {
     FontFamily = "Roboto Slab",
-    FontSize =  18,
+    FontSize = 18,
     FontColor = "#9adaff",
 }
 -- Graphs
@@ -105,7 +106,7 @@ Config.PieGraph = {
         PaddingPercent = 5,
         Label = {
             FontFamily = "Roboto Slab",
-            FontSize =  14,
+            FontSize = 14,
             FontColor = "#00FF00"
         }
     },
