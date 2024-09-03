@@ -5,7 +5,7 @@ It only uses some core functions of conky, the visuals are mostly selfmade in LU
 It's optimized for a 2nd monitor, with a resolution of 2560x1440.<br /><br />
 
 ### Installation
-Clone the repository run install.sh in the Anxiety folder. This will create a symlink as ~/.conkyrc.<br /><br />
+Clone the repository run <a href="https://github.com/RomanDrechsel/.conkyrc/blob/main/Anxiety/install.sh">install.sh</a> in the Anxiety folder. This will create a symlink as ~/.conkyrc.<br /><br />
 You can adjust some settings in the <a href="https://github.com/RomanDrechsel/.conkyrc/blob/main/Anxiety/config.lua">config.lua</a><br /><br />
 
 ### Requirements
