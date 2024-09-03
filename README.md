@@ -1,4 +1,4 @@
-My personal .conkyrc for Nvidia graphics cards.<br /><br />
+My personal .conkyrc for AMD Radeon graphics cards.<br /><br />
 
 This is a slight modification of the standard .conkyrc.<br />
 It's optimized for a 2nd monitor, with a resolution of 1920x1080.<br /><br />
