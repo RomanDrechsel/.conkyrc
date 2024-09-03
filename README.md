@@ -6,7 +6,7 @@ It's optimized for a 2nd monitor, with a resolution of 2560x1440.<br /><br />
 
 ### Installation
 Clone the repository run install.sh in the Anxiety folder. This will create a symlink as ~/.conkyrc.<br /><br />
-You can adjust some settings in the <a href="config.lua">config.lua</a><br /><br />
+You can adjust some settings in the <a href="https://github.com/RomanDrechsel/.conkyrc/blob/main/Anxiety/config.lua">config.lua</a><br /><br />
 
 ### Requirements
 You need to have the packages lm-sensors and sysstat installed.
@@ -20,7 +20,7 @@ You need to have the packages lm-sensors and sysstat installed.
 <a href="https://www.1001fonts.com/ep-boxi-font.html">EP Boxi</a><br /><br />
 
 ### Screenshots
-<a href="Screenshots/Anxiety.jpg" target="_blank"><img src="Screenshots/Anxiety.jpg" height="400" alt="Anxiety"></a><br /><br />
+<a href="Screenshots/screenshot.jpg" target="_blank"><img src="Screenshots/screenshot.jpg" height="400" alt="Anxiety"></a><br /><br />
 
 <br /><br /><br />
 
