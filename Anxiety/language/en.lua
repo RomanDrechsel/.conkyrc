@@ -1,5 +1,7 @@
 Locale = {}
 
+Locale.Locale = "en_US";
+
 Locale.Clock = "%I:%M:%S%p"
 Locale.Date = "%A, %B %d. %Y"
 
@@ -21,7 +23,7 @@ Locale.Power = "Usage"
 
 Locale.Disk = "Hard disk"
 
-Locale.Network = "Internet"
+Locale.Network = "Network"
 Locale.ExternIP = "External IP"
 Locale.Ping = "Ping"
 
@@ -29,3 +31,5 @@ Locale.Name = "Name"
 Locale.PID = "PID"
 Locale.CPU = "CPU"
 Locale.MEM = "MEM"
+
+print("Locale: en");

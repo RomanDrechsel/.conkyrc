@@ -27,7 +27,7 @@ Config.Padding = 4
 -- Clock
 Config.Clock = {
     FontFamily = "EP Boxi",
-    FontSize = 46,
+    FontSize = 40,
     FontColor = "#72aeef"
 }
 

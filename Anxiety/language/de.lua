@@ -1,5 +1,7 @@
 Locale = {}
 
+Locale.Locale = "de_DE";
+
 Locale.Clock = "%H:%M:%S"
 Locale.Date = "%A, %d. %B %Y"
 
@@ -29,3 +31,5 @@ Locale.Name = "Name"
 Locale.PID = "PID"
 Locale.CPU = "CPU"
 Locale.MEM = "MEM"
+
+print("Locale: de");
