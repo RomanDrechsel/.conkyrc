@@ -1,26 +1,15 @@
-My personal .conkyrc for AMD Radeon graphics cards.<br /><br />
+My personal .conkyrc for AMD Radeon graphics cards.<br />
+I use it on Manjaro KDE.<br /><br />
 
-This is a slight modification of the standard .conkyrc.<br />
-It's optimized for a 2nd monitor, with a resolution of 1920x1080.<br /><br />
+It only uses some core functions of conky, the visuals are mostly selfmade in LUA with cairo.<br /><br />
+It's optimized for a 2nd monitor, with a resolution of 2560x1440.<br /><br />
 
 ### Installation
-Download the latest release zip file and unzip it to a directory of your choice and run install.sh. This will create a symlink as ~/.conkyrc.<br /><br />
+Clone the repository run install.sh in the Anxiety folder. This will create a symlink as ~/.conkyrc.<br /><br />
+You can adjust some settings in the <a href="config.lua">config.lua</a><br /><br />
 
-### Required adjustments
-Most likely you need to replace the correct network adapter for displaying the download and upload rate for your system.<br />
-Open a terminal and enter the command <i>ip a</i><br />
-Copy the name of the correct adapter and replace all "enp0s31f6" in lines 87 and 88 with it<br /><br />
-
-Probably you also have to adjust the scaling of the upload and download graph<br />
-Currently it is adjusted to my system, that means the maximum of the graphs are 110Mbit/s down and 31Mbit/s up.<br /><br />
-
-First calculate your maximum transfer rates for upload and download in bytes per second:<br /><br />
-
-For example, with a maximum transfer rate of 110MBit/s:<br />
-110MBit/s / 8 = 13.75Mb/s<br />
-13.75Mb/s * 1048576 = 14417920 b/s (1 megabyte = 1024*1024 bytes)<br /><br />
-
-In line 88 you replace the number as the 6th parameter of the objects downspeedgraph and upspeedgraph.<br /><br />
+### Requirements
+You need to have the packages lm-sensors and sysstat installed.
 
 ### Assets
 **Background**<br />
@@ -35,7 +24,5 @@ In line 88 you replace the number as the 6th parameter of the objects downspeedg
 
 <br /><br /><br />
 
-
-
-If you like the watchface, you can support me at<br />
+If you like it, you can support me on:<br />
 [Paypal](https://paypal.me/RomanDrechsel) or [Buy me a coffee](https://www.buymeacoffee.com/romandrechsel)
