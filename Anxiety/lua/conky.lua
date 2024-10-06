@@ -36,9 +36,6 @@ require("processes")
 
 local background = nil
 
-function conky_startup()
-end
-
 function conky_pre()
     if conky_window == nil or conky_window.width <= 0 or conky_window.height <= 0 then
         return
@@ -64,19 +61,18 @@ function conky_pre()
         NET:Update()
     end
 
-    local cs = cairo_xlib_surface_create(conky_window.display, conky_window.drawable, conky_window.visual,
-        conky_window.width, conky_window.height)
+    local cs = cairo_xlib_surface_create(conky_window.display, conky_window.drawable, conky_window.visual, conky_window.width, conky_window.height)
     local cr = cairo_create(cs)
 
     if background == nil and Config.BackgroundImage then
         background = cairo_image_surface_create_from_png(pwd .. "../" .. Config.BackgroundImage)
     end
 
-    if Draw then
-        Draw:Background(cr, background)
-    end
-
     if cr then
+        if Draw then
+            Draw:Background(cr, background)
+        end
+
         local y = Config.MarginY
         if Clock then
             y = Clock:Display(cr, y)
@@ -106,7 +102,4 @@ function conky_pre()
 
     cairo_destroy(cr)
     cairo_surface_destroy(cs)
-end
-
-function conky_shutdown()
 end

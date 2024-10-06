@@ -1,4 +1,4 @@
-BarGraph = { Config = nil}
+BarGraph = { Config = nil }
 
 function BarGraph:new(config, height)
     local o = {}
@@ -20,7 +20,7 @@ function BarGraph:new(config, height)
 end
 
 function BarGraph:Draw(cr, x, y, data)
-    if data == nil or self.Height == nill or self.Height < 0 then
+    if data == nil or self.Height == nil or self.Height < 0 then
         data = 0
     end
     if type(data) ~= "number" then
@@ -56,7 +56,7 @@ function BarGraph:Draw(cr, x, y, data)
         Draw:FillRect(cr, x, y, barwidth, self.Height, self.Config.Graph.Color)
     end
 
-    -- border 
+    -- border
     if self.Config.Border and self.Config.Border.LineWidth then
         Draw:Rect(cr, x, y, width, self.Height, self.Config.Border.LineWidth, self.Config.Border.Color)
     end

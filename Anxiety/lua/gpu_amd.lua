@@ -2,7 +2,7 @@ GPU = { Path = nil, DriverVersion = "", CardName = "" }
 
 function GPU:new()
     self.Path = "/sys/class/drm/"
-    local card = pipe("ls " .. self.Path .. " | grep -E '^card[0-9]+$'")
+    local card = pipe("ls " .. self.Path .. " | grep -E '^card[0-9]+$' | tail -n 1")
     if card == nil or string.len(card) == 0 then
         card = "card0"
     end

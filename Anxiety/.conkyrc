@@ -22,7 +22,7 @@ conky.config = {
 	own_window_class = 'override',
 	own_window_argb_visual = true,
 	own_window_hints = 'undecorated,above,sticky,skip_taskbar,skip_pager',
-	own_window_colour = '000000',
+	own_window_colour = 'ffffff',
 	own_window_transparent = false,
 	show_graph_scale = false,
 	alignment = 'top_right',
@@ -33,8 +33,7 @@ conky.config = {
 	maximum_width = 350,
     minimum_width = 350,
 	minimum_height = height,
-	lua_draw_hook_pre = 'pre',
-	lua_shutdown_hook = 'shutdown'
+	lua_draw_hook_pre = 'pre'
 }
 
 conky.text = [[

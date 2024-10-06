@@ -14,7 +14,7 @@ Config.Partitions = {
 
 -- Network interface
 Config.Network = {}
-Config.Network.Interface = "enp0s31f6"
+Config.Network.Interface = "eno1"
 Config.Network.DownloadMaxBytePerSecond = 14417920
 Config.Network.UploadMaxBytesPerSecond = 4063232
 

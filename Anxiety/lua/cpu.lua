@@ -6,7 +6,7 @@ function CPU:new()
 
     if Config.PieGraph.Graph.Color then
         local configMainGraph = table_copy(Config.PieGraph)
-        configMainGraph.Graph.Radius = 35
+        configMainGraph.Graph.Radius = 30
         self.GraphMain = PieGraph:new(configMainGraph, 90, 170)
         self._configSmallGraph = table_copy(Config.PieGraph)
         self._configSmallGraph.Graph.BarWidthPercent = 75
@@ -32,9 +32,12 @@ function CPU:Display(cr, y)
 
     if self.GraphMain then
         -- Background
+        local smallGraphWidth = 25
+        local smallGraphHeight = 40
         local rx = Config.MarginX + self.GraphMain.Width + 10
+        local cpuRows = math.ceil((self.CPUCount * smallGraphWidth) / (conky_window.width - rx - Config.MarginX))
 
-        local height = math.ceil((self.CPUCount * 35) / (conky_window.width - rx - Config.MarginX)) * 45
+        local height = cpuRows * (smallGraphHeight + 7)
         if height < self.GraphMain.Height then
             height = self.GraphMain.Height
         end
@@ -42,9 +45,7 @@ function CPU:Display(cr, y)
 
         -- main cpu
         local util = self:Utilization(0)
-        if util > 0 then
-            self.GraphMain:Draw(cr, Config.MarginX, y, util, { util .. "%", self:Temp() })
-        end
+        self.GraphMain:Draw(cr, Config.MarginX, y, util, { util .. "%", self:Temp() })
 
         if self.GraphsSmall == nil then
             self.GraphsSmall = {}
@@ -58,7 +59,7 @@ function CPU:Display(cr, y)
                 usage = self:Utilization(i)
                 if usage then
                     if self.GraphsSmall[i] == nil then
-                        table.insert(self.GraphsSmall, PieGraph:new(self._configSmallGraph, 35, 50))
+                        table.insert(self.GraphsSmall, PieGraph:new(self._configSmallGraph, smallGraphWidth, smallGraphHeight))
                     end
                     self.GraphsSmall[i]:Draw(cr, dx, dy, usage, usage .. "%")
                     dx = dx + self.GraphsSmall[i].Width + 7
@@ -71,14 +72,9 @@ function CPU:Display(cr, y)
             if #self.GraphsSmall > 0 then
                 dy = dy + self.GraphsSmall[1].Height + 7
             end
-            if dy > y + height then
-                y = dy;
-            else
-                y = y + height
-            end
-        else
-            y = y + height
         end
+
+        y = y + height
 
         if self.GraphLine then
             y = self.GraphLine:Draw(cr, Config.MarginX, y, util)
@@ -90,7 +86,7 @@ end
 
 function CPU:Temp()
     if Sensors and Sensors.Json then
-        local temp = Sensors.Json["coretemp-isa-0000"]["Package id 0"]["temp1_input"];
+        local temp = Sensors.Json["k10temp-pci-00c3"]["Tctl"]["temp1_input"];
         if temp then
             return toInt(temp) .. "°C"
         end

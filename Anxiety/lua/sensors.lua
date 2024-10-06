@@ -3,7 +3,7 @@ Sensors = {}
 function Sensors:new()
     if package_installed("sensors") == false then
         print("Package \"sensors\" not installed!")
-        print("run \"sudo apt install lm-sensors\"")
+        print("run \"sudo pacman -Sq lm_sensors\"")
     else
         self.Init = true
     end

@@ -5,7 +5,7 @@ function NET:new()
     self:_getPing()
     self._json = nil
     if Config.NetworkGraph then
-        self.Graph = LineGraph:new(Config.LineGraph, nil, 80)
+        self.Graph = LineGraph:new(Config.LineGraph, nil, 70)
 
         self.Graph.Lines = {
             ["down"] = Config.NetworkGraph.Download,
